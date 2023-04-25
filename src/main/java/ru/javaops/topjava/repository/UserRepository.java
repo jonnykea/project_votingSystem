@@ -17,7 +17,7 @@ public interface UserRepository extends BaseRepository<User> {
     Optional<User> findByEmailIgnoreCase(String email);
 
     //    https://stackoverflow.com/a/46013654/548473
-    @EntityGraph(attributePaths = {"meals"}, type = EntityGraph.EntityGraphType.FETCH)
+    @EntityGraph(attributePaths = {"meals","roles"}, type = EntityGraph.EntityGraphType.FETCH)
     @Query("SELECT u FROM User u WHERE u.id=?1")
     Optional<User> getWithMeals(int id);
 
