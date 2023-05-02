@@ -16,11 +16,11 @@ spring:
         jdbc.batch_size: 20
   datasource:
     # ImMemory
-    url: jdbc:h2:mem:topjava
+    #    url: jdbc:h2:mem:topjava
     #    tcp: jdbc:h2:tcp://localhost:9092/mem:topjava
     # Absolute path
-    #    url: jdbc:h2:C:/projects/bootjava/db/topjava
-    #    tcp: jdbc:h2:tcp://localhost:9092/C:/projects/bootjava/db/topjava
+    url: jdbc:h2:C:/projects/topJavaBoot/db/project
+    #    tcp: jdbc:h2:tcp://localhost:9092/C:/projects/topJavaBoot/db/project
     # Relative path form current dir
     #    url: jdbc:h2:./db/topjava
     # Relative path from home
@@ -29,7 +29,7 @@ spring:
     username: sa
     password:
 
-# Jackson Serialization Issue Resolver
+  # Jackson Serialization Issue Resolver
   jackson.visibility:
     field: any
     getter: none
