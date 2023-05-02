@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import ru.javaops.topjava.HasIdAndEmail;
-import ru.javaops.topjava.repository.UserRepository;
+import ru.javaops.topjava.repository.user.UserRepository;
 import ru.javaops.topjava.web.AuthUser;
 
 @Component

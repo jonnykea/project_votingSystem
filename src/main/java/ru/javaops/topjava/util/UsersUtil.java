@@ -1,8 +1,8 @@
 package ru.javaops.topjava.util;
 
 import lombok.experimental.UtilityClass;
-import ru.javaops.topjava.model.Role;
-import ru.javaops.topjava.model.User;
+import ru.javaops.topjava.model.user.Role;
+import ru.javaops.topjava.model.user.User;
 import ru.javaops.topjava.to.UserTo;
 
 @UtilityClass

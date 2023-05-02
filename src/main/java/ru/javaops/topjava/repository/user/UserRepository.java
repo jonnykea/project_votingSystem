@@ -1,10 +1,11 @@
-package ru.javaops.topjava.repository;
+package ru.javaops.topjava.repository.user;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javaops.topjava.error.NotFoundException;
-import ru.javaops.topjava.model.User;
+import ru.javaops.topjava.model.user.User;
+import ru.javaops.topjava.repository.BaseRepository;
 
 import java.util.Optional;
 

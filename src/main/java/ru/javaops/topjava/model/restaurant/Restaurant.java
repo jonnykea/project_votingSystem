@@ -1,4 +1,4 @@
-package ru.javaops.topjava.model;
+package ru.javaops.topjava.model.restaurant;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import ru.javaops.topjava.model.NamedEntity;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -27,16 +28,27 @@ public class Restaurant extends NamedEntity implements Serializable {
 
     @Column(name = "description", nullable = false)
     @NotBlank
-    @Size(min = 30, max = 300)
+    @Size(min = 20, max = 100)
     private String description;
+
+    @Column(name = "address", nullable = false)
+    @NotBlank
+    @Size(min = 25, max = 250)
+    private String address;
 
     @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()", updatable = false)
     @NotNull
     private Date registered = new Date();
 
     public Restaurant(Integer id, String name, Date registered, String description, String address) {
-        super(id, name);
+        this(id,name,description,address);
         this.registered = registered;
+
+    }
+
+    public Restaurant(Integer id, String name, String description, String address) {
+        super(id, name);
         this.description = description;
+        this.address = address;
     }
 }

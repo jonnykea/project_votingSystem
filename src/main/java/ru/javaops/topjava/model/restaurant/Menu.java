@@ -1,9 +1,10 @@
-package ru.javaops.topjava.model;
+package ru.javaops.topjava.model.restaurant;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import ru.javaops.topjava.model.NamedEntity;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -21,16 +22,12 @@ public class Menu extends NamedEntity implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Column(name = "price", nullable = false)
-    @NotNull
-    private double price;
-
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "dish_id", nullable = false)
+    @JoinColumn(name = "menu_id")
     @Size(min = 2, max = 5)
     private List<Dish> dishes;
 }

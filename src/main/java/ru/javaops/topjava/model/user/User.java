@@ -1,4 +1,4 @@
-package ru.javaops.topjava.model;
+package ru.javaops.topjava.model.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -14,6 +14,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.util.CollectionUtils;
 import ru.javaops.topjava.HasIdAndEmail;
+import ru.javaops.topjava.model.NamedEntity;
 import ru.javaops.topjava.util.validation.NoHtml;
 
 import java.io.Serial;
@@ -46,9 +47,6 @@ public class User extends NamedEntity implements HasIdAndEmail, Serializable {
     @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
     private boolean enabled = true;
 
-    @Column(name = "is_voted", nullable = false, columnDefinition = "bool default false")
-    private boolean isVoted = false;
-
     @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()", updatable = false)
     @NotNull
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -65,19 +63,18 @@ public class User extends NamedEntity implements HasIdAndEmail, Serializable {
     private Set<Role> roles;
 
     public User(User u) {
-        this(u.id, u.name, u.email, u.password, u.enabled, u.isVoted, u.registered, u.roles);
+        this(u.id, u.name, u.email, u.password, u.enabled, u.registered, u.roles);
     }
 
     public User(Integer id, String name, String email, String password, Role... roles) {
-        this(id, name, email, password,  true, false, new Date(), Arrays.asList(roles));
+        this(id, name, email, password,  true, new Date(), Arrays.asList(roles));
     }
 
-    public User(Integer id, String name, String email, String password, boolean enabled, boolean isVoted, Date registered, Collection<Role> roles) {
+    public User(Integer id, String name, String email, String password, boolean enabled, Date registered, Collection<Role> roles) {
         super(id, name);
         this.email = email;
         this.password = password;
         this.enabled = enabled;
-        this.isVoted = isVoted;
         this.registered = registered;
         setRoles(roles);
     }

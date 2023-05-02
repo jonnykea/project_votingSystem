@@ -4,8 +4,8 @@ import lombok.Getter;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import ru.javaops.topjava.model.Role;
-import ru.javaops.topjava.model.User;
+import ru.javaops.topjava.model.user.Role;
+import ru.javaops.topjava.model.user.User;
 
 import static java.util.Objects.requireNonNull;
 

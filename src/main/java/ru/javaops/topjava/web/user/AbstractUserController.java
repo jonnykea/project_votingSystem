@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
-import ru.javaops.topjava.model.User;
-import ru.javaops.topjava.repository.UserRepository;
+import ru.javaops.topjava.model.user.User;
+import ru.javaops.topjava.repository.user.UserRepository;
 
 import static org.slf4j.LoggerFactory.getLogger;
 

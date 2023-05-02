@@ -14,9 +14,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import ru.javaops.topjava.model.Role;
-import ru.javaops.topjava.model.User;
-import ru.javaops.topjava.repository.UserRepository;
+import ru.javaops.topjava.model.user.Role;
+import ru.javaops.topjava.model.user.User;
+import ru.javaops.topjava.repository.user.UserRepository;
 import ru.javaops.topjava.web.AuthUser;
 
 import java.util.Optional;

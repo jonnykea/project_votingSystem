@@ -1,4 +1,4 @@
-package ru.javaops.topjava.model;
+package ru.javaops.topjava.model.user;
 
 import org.springframework.security.core.GrantedAuthority;
 

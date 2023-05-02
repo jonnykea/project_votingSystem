@@ -1,8 +1,9 @@
-package ru.javaops.topjava.model;
+package ru.javaops.topjava.model.restaurant;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import ru.javaops.topjava.model.NamedEntity;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -24,7 +25,11 @@ public class Dish extends NamedEntity implements Serializable {
     @NotNull
     private Date created = new Date();
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @Column(name = "price", nullable = false)
+    @NotNull
+    private double price;
+
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
 

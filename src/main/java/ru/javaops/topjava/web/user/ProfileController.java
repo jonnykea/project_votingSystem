@@ -8,7 +8,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import ru.javaops.topjava.model.User;
+import ru.javaops.topjava.model.user.User;
 import ru.javaops.topjava.to.UserTo;
 import ru.javaops.topjava.util.UsersUtil;
 import ru.javaops.topjava.web.AuthUser;
