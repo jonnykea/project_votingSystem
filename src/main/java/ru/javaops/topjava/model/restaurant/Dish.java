@@ -9,11 +9,11 @@ import ru.javaops.topjava.model.NamedEntity;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "dish", uniqueConstraints =
-        {@UniqueConstraint(columnNames = {"id", "name"}, name = "dish_unique_id_name_idx")})
+        {@UniqueConstraint(columnNames = {"id", "date"}, name = "dish_unique_id_date_idx")})
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -25,19 +25,24 @@ public class Dish extends NamedEntity implements Serializable {
 
     @Column(name = "date", nullable = false, columnDefinition = "timestamp default now()", updatable = false)
     @NotNull
-    private Date created = new Date();
+    private LocalDate created = LocalDate.now();
 
     @Column(name = "price", nullable = false)
     @NotNull
-    private double price;
+    private int price;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
 
-    public Dish(Integer id, String name, Date created) {
-        super(id, name);
+    public Dish(Integer id, String name, LocalDate created, int price) {
+        this(id, name, price);
         this.created = created;
+    }
+
+    public Dish(Integer id, String name, int price) {
+        super(id, name);
+        this.price = price;
     }
 }

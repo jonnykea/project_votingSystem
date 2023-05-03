@@ -15,7 +15,7 @@ VALUES ('МЯСНАЯ ДЕРЕВНЯ', 'специализация блюдо р
 
 INSERT INTO MENU (NAME, restaurant_id)
 VALUES ('МЕНЮ МЯСНОЙ ДЕРЕВНИ', 1),
-       ('МЕНЮ ХАРЬИНА', 2);
+       ('МЕНЮ ПЕКИНА', 2);
 
 INSERT INTO DISH (NAME, PRICE, restaurant_id)
 VALUES ('суп', 150, 1),

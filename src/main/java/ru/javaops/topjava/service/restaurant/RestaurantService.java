@@ -1,21 +1,19 @@
-package ru.javaops.topjava.service;
+package ru.javaops.topjava.service.restaurant;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import ru.javaops.topjava.model.restaurant.Restaurant;
 import ru.javaops.topjava.repository.restaurant.RestaurantRepository;
-import ru.javaops.topjava.util.DateTimeUtil;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.function.Predicate;
 
 @Service
 public class RestaurantService {
-
-    @Autowired
     private final RestaurantRepository repository;
 
+    @Autowired
     public RestaurantService(RestaurantRepository repository) {
         this.repository = repository;
     }
@@ -24,11 +22,9 @@ public class RestaurantService {
         return repository.getExisted(id);
     }
 
-    public List<Restaurant> getAll() {
-        return repository.getAll().
-                stream()
-                .filter(d -> d.getRegistered().compareTo(DateTimeUtil.asDate(LocalDate.now()))==0)
-                .toList();
+    public List<Restaurant> getActualAll() {
+        List<Restaurant> list = getFilteredRestaurants(r -> r.getRegistered().isEqual(LocalDate.now()));
+        return list;
     }
 
     public Restaurant getByName(String name) {
@@ -39,8 +35,14 @@ public class RestaurantService {
         repository.deleteExisted(id);
     }
 
-    public void update(Restaurant r) {
-        repository.save(r);
+    public Restaurant create(Restaurant r) {
+        return repository.save(r);
+    }
+
+    private List<Restaurant> getFilteredRestaurants(Predicate<Restaurant> filter) {
+        return repository.getAll().stream()
+                .filter(filter)
+                .toList();
     }
 }
 

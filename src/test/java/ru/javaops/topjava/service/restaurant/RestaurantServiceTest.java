@@ -5,10 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
-import ru.javaops.topjava.error.DataConflictException;
 import ru.javaops.topjava.error.NotFoundException;
 import ru.javaops.topjava.model.restaurant.Restaurant;
-import ru.javaops.topjava.service.RestaurantService;
 
 import java.util.List;
 
@@ -30,8 +28,13 @@ class RestaurantServiceTest {
     }
 
     @Test
-    void getAll() {
-        List<Restaurant> actual = service.getAll();
+    void getNotFound() {
+        assertThrows(NotFoundException.class, () -> service.get(NOT_FOUND));
+    }
+
+    @Test
+    void getActualAll() {
+        List<Restaurant> actual = service.getActualAll();
         Restaurant_MATCHER.assertMatch(actual, restaurants);
     }
 
@@ -42,20 +45,30 @@ class RestaurantServiceTest {
     }
 
     @Test
-    void delete() {
-        service.delete(RESTAURANT_ID);
-        assertThrows(DataConflictException.class, () -> service.get(RESTAURANT_ID));
-    }
-
-    @Test
-    void deleteNotFound() {
-        assertThrows(NotFoundException.class, () -> service.delete(NOT_FOUND));
+    void create() {
+        Restaurant created = service.create(getNew());
+        int newId = created.id();
+        Restaurant  newRest = getNew();
+        newRest.setId(newId);
+        Restaurant_MATCHER.assertMatch(created, newRest);
+        Restaurant_MATCHER.assertMatch(service.get(newId), newRest);
     }
 
     @Test
     void update() {
         Restaurant updated = getUpdated();
-        service.update(updated);
-        Restaurant_MATCHER.assertMatch(updated, harbin);
+        service.create(updated);
+        Restaurant_MATCHER.assertMatch(updated, service.get(RESTAURANT_ID + 1));
+    }
+
+    @Test
+    void delete() {
+        service.delete(RESTAURANT_ID);
+        assertThrows(NotFoundException.class, () -> service.get(RESTAURANT_ID));
+    }
+
+    @Test
+    void deleteNotFound() {
+        assertThrows(NotFoundException.class, () -> service.delete(NOT_FOUND));
     }
 }

@@ -12,7 +12,7 @@ import ru.javaops.topjava.model.NamedEntity;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "restaurant", uniqueConstraints = {@UniqueConstraint(columnNames =
@@ -28,22 +28,21 @@ public class Restaurant extends NamedEntity implements Serializable {
 
     @Column(name = "description", nullable = false)
     @NotBlank
-    @Size(min = 20, max = 100)
+    @Size(min = 10, max = 100)
     private String description;
 
     @Column(name = "address", nullable = false)
     @NotBlank
-    @Size(min = 25, max = 250)
+    @Size(min = 10, max = 250)
     private String address;
 
     @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()", updatable = false)
     @NotNull
-    private Date registered = new Date();
+    private LocalDate registered = LocalDate.now();
 
-    public Restaurant(Integer id, String name, Date registered, String description, String address) {
-        this(id,name,description,address);
+    public Restaurant(Integer id, String name, LocalDate registered, String description, String address) {
+        this(id, name, description, address);
         this.registered = registered;
-
     }
 
     public Restaurant(Integer id, String name, String description, String address) {
