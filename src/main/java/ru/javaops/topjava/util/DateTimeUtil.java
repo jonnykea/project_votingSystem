@@ -4,7 +4,9 @@ import lombok.experimental.UtilityClass;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 
 @UtilityClass
 public class DateTimeUtil {
@@ -19,5 +21,9 @@ public class DateTimeUtil {
 
     public static LocalDateTime atStartOfNextDayOrMax(LocalDate localDate) {
         return localDate != null ? localDate.plus(1, ChronoUnit.DAYS).atStartOfDay() : MAX_DATE;
+    }
+
+    public static Date asDate(LocalDate localDate) {
+        return Date.from(localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
     }
 }

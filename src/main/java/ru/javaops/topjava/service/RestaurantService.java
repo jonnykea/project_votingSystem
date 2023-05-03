@@ -1,10 +1,13 @@
 package ru.javaops.topjava.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import ru.javaops.topjava.model.restaurant.Restaurant;
 import ru.javaops.topjava.repository.restaurant.RestaurantRepository;
+import ru.javaops.topjava.util.DateTimeUtil;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -22,7 +25,10 @@ public class RestaurantService {
     }
 
     public List<Restaurant> getAll() {
-        return repository.getAll();
+        return repository.getAll().
+                stream()
+                .filter(d -> d.getRegistered().compareTo(DateTimeUtil.asDate(LocalDate.now()))==0)
+                .toList();
     }
 
     public Restaurant getByName(String name) {

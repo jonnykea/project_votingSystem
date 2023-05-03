@@ -3,6 +3,8 @@ package ru.javaops.topjava.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import ru.javaops.topjava.model.restaurant.Restaurant;
 import ru.javaops.topjava.model.user.User;
 
@@ -23,6 +25,7 @@ public class Vote extends BaseEntity implements Serializable {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
 
     @OneToOne(fetch = FetchType.LAZY)

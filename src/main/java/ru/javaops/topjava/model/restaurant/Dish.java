@@ -3,6 +3,8 @@ package ru.javaops.topjava.model.restaurant;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import ru.javaops.topjava.model.NamedEntity;
 
 import java.io.Serial;
@@ -31,6 +33,7 @@ public class Dish extends NamedEntity implements Serializable {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
 
     public Dish(Integer id, String name, Date created) {
