@@ -28,7 +28,7 @@ public class RestaurantService {
     }
 
     public Restaurant getByName(String name) {
-        return repository.getByName(name);
+        return repository.getExistedByName(name);
     }
 
     public void delete(int id) {

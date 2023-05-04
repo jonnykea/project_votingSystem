@@ -22,7 +22,7 @@ public class DishService {
         this.restaurantRepository = restaurantRepository;
     }
 
-    public Dish get(int id) {
+    public Dish getById(int id) {
         return repository.getExisted(id);
     }
 
@@ -32,7 +32,7 @@ public class DishService {
     }
 
     public Dish getByName(String name) {
-        return repository.getByName(name);
+        return repository.getExistedByName(name);
     }
 
     public void delete(int id) {

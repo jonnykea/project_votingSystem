@@ -24,26 +24,31 @@ class DishServiceTest {
     private DishService service;
 
     @Test
-    void get() {
-        Dish actual = service.get(DISH_ID);
-        Dish_MATCHER.assertMatch(actual, dishMealVillage1);
+    void getById() {
+        Dish actual = service.getById(DISH_ID);
+        DISH_MATCHER.assertMatch(actual, dishMealVillage1);
     }
 
     @Test
     void getNotFound() {
-        assertThrows(NotFoundException.class, () -> service.get(NOT_FOUND));
+        assertThrows(NotFoundException.class, () -> service.getById(NOT_FOUND));
     }
 
     @Test
     void getActualAll() {
         List<Dish> actual = service.getActualAll(RESTAURANT_ID);
-        Dish_MATCHER.assertMatch(actual, dishesMealVillage);
+        DISH_MATCHER.assertMatch(actual, dishesMealVillage);
     }
 
     @Test
     void getByName() {
-        Dish actual = service.getByName("суп");
-        Dish_MATCHER.assertMatch(actual, dishMealVillage1);
+        Dish actual = service.getByName("Суп");
+        DISH_MATCHER.assertMatch(actual, dishMealVillage1);
+    }
+
+    @Test
+    void geByNameNotFound() {
+        assertThrows(NotFoundException.class, () -> service.getByName("Кисель"));
     }
 
     @Test
@@ -52,21 +57,21 @@ class DishServiceTest {
         int newId = created.id();
         Dish newRest = getNew();
         newRest.setId(newId);
-        Dish_MATCHER.assertMatch(created, newRest);
-        Dish_MATCHER.assertMatch(service.get(newId), newRest);
+        DISH_MATCHER.assertMatch(created, newRest);
+        DISH_MATCHER.assertMatch(service.getById(newId), newRest);
     }
 
     @Test
     void update() {
         Dish updated = getUpdated();
         service.create(updated, RESTAURANT_ID);
-        Dish_MATCHER.assertMatch(updated, service.get(DISH_ID));
+        DISH_MATCHER.assertMatch(updated, service.getById(DISH_ID));
     }
 
     @Test
     void delete() {
         service.delete(DISH_ID);
-        assertThrows(NotFoundException.class, () -> service.get(DISH_ID));
+        assertThrows(NotFoundException.class, () -> service.getById(DISH_ID));
     }
 
     @Test

@@ -6,7 +6,7 @@ import ru.javaops.topjava.service.MatcherFactory;
 import java.util.List;
 
 public class DishTestData {
-    public static final MatcherFactory.Matcher<Dish> Dish_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(Dish.class, "created", "restaurant");
+    public static final MatcherFactory.Matcher<Dish> DISH_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(Dish.class, "created", "restaurant");
     public static final int NOT_FOUND = 10;
     public static final int DISH_ID = 1;
 

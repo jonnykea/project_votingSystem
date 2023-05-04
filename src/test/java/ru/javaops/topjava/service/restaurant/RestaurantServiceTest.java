@@ -45,6 +45,11 @@ class RestaurantServiceTest {
     }
 
     @Test
+    void geByNameNotFound() {
+        assertThrows(NotFoundException.class, () -> service.getByName("ХАРБИН"));
+    }
+
+    @Test
     void create() {
         Restaurant created = service.create(getNew());
         int newId = created.id();

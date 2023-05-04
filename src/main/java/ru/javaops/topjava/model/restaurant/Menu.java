@@ -32,4 +32,8 @@ public class Menu extends NamedEntity implements Serializable {
     @JoinColumn(name = "menu_id")
     @Size(min = 2, max = 5)
     private List<Dish> dishes;
+
+    public Menu(Integer id, String name) {
+        super(id, name);
+    }
 }
