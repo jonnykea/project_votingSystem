@@ -12,7 +12,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.javaops.topjava.service.dish.DishTestData.*;
-import static ru.javaops.topjava.service.restaurant.RestaurantTestData.NOT_FOUND;
 import static ru.javaops.topjava.service.restaurant.RestaurantTestData.RESTAURANT_ID;
 
 @SpringBootTest
@@ -66,6 +65,11 @@ class DishServiceTest {
         Dish updated = getUpdated();
         service.create(updated, RESTAURANT_ID);
         DISH_MATCHER.assertMatch(updated, service.getById(DISH_ID));
+    }
+
+    @Test
+    void updateNotOwn() {
+        assertThrows(NotFoundException.class, () -> service.create(getUpdated(), NOT_FOUND));
     }
 
     @Test

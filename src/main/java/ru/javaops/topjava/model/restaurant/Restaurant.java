@@ -16,7 +16,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "restaurant", uniqueConstraints = {@UniqueConstraint(columnNames =
-        {"id", "registered"}, name = "restaurant_unique_id_registered_idx")})
+        {"name", "address"}, name = "restaurant_unique_name_address_idx")})
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -49,5 +49,9 @@ public class Restaurant extends NamedEntity implements Serializable {
         super(id, name);
         this.description = description;
         this.address = address;
+    }
+
+    public Restaurant(Restaurant r) {
+        this(r.id,r.name,r.registered,r.description,r.address);
     }
 }

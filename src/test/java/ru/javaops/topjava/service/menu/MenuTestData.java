@@ -1,20 +1,18 @@
 package ru.javaops.topjava.service.menu;
 
-import ru.javaops.topjava.model.restaurant.Dish;
 import ru.javaops.topjava.model.restaurant.Menu;
 import ru.javaops.topjava.service.MatcherFactory;
 
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.javaops.topjava.service.dish.DishTestData.dishesMealVillage;
-import static ru.javaops.topjava.service.restaurant.RestaurantTestData.meal_village;
+import static ru.javaops.topjava.service.dish.DishTestData.newDishes;
+import static ru.javaops.topjava.service.restaurant.RestaurantTestData.sushiCity;
 
 public class MenuTestData {
     public static final MatcherFactory.Matcher<Menu> MENU_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(Menu.class, "restaurant", "dishes");
     public static MatcherFactory.Matcher<Menu> MENU_WITH_RESTARAUNT_AND_DISHES_MATCHER =
             MatcherFactory.usingAssertions(Menu.class,
-                    (a, e) -> assertThat(a).usingRecursiveComparison().ignoringFields("restaurant.registered", "dish.created").isEqualTo(e),
+                    (a, e) -> assertThat(a).usingRecursiveComparison().ignoringFields("restaurant.registered", "dish.created", "dishes.restaurant").isEqualTo(e),
                     (a, e) -> {
                         throw new UnsupportedOperationException();
                     });
@@ -22,14 +20,17 @@ public class MenuTestData {
     public static final int MENU_ID = 1;
 
     public static final Menu menuMealVillage = new Menu(1, "меню мясной деревни");
-    public static final Menu menuMealPekin = new Menu(2, "меню пекина");
+    public static final Menu menuPekin = new Menu(2, "меню пекина");
 
     static {
         menuMealVillage.setDishes(dishesMealVillage);
-        menuMealVillage.setRestaurant(meal_village);
     }
+
     public static Menu getNew() {
-        return new Menu(null, "меню суши сити");
+        Menu newMenu = new Menu(null, "меню суши сити");
+        newMenu.setRestaurant(sushiCity);
+        newMenu.setDishes(newDishes);
+        return newMenu;
     }
 
     public static Menu getUpdated() {

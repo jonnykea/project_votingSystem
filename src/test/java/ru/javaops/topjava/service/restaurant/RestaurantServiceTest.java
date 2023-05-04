@@ -53,7 +53,7 @@ class RestaurantServiceTest {
     void create() {
         Restaurant created = service.create(getNew());
         int newId = created.id();
-        Restaurant  newRest = getNew();
+        Restaurant newRest = getNew();
         newRest.setId(newId);
         Restaurant_MATCHER.assertMatch(created, newRest);
         Restaurant_MATCHER.assertMatch(service.get(newId), newRest);

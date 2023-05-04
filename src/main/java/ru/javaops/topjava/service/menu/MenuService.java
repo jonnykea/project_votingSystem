@@ -21,22 +21,10 @@ public class MenuService {
         this.restaurantRepository = restaurantRepository;
     }
 
-    public Menu getById(int id) {
-        return repository.getExisted(id);
-    }
-
-    public Menu getByRestaurantId(int id) {
-        return repository.getByRestaurantId(id);
-    }
-
-    public Menu getByRestaurantIdWithDishes(int restaurantId) {
+    public Menu getByRestaurantId(int restaurantId) {
         Menu menu = repository.getByRestaurantId(restaurantId);
         menu.setDishes(dishService.getActualAll(restaurantId));
         return menu;
-    }
-
-    public Menu getByName(String name) {
-        return repository.getExistedByName(name);
     }
 
     public void delete(int id) {
@@ -46,11 +34,6 @@ public class MenuService {
     @Transactional
     public Menu create(Menu menu, int restaurantId) {
         menu.setRestaurant(restaurantRepository.getExisted(restaurantId));
-        return repository.save(menu);
-    }
-
-    @Transactional
-    public Menu createWithDishes(Menu menu, int restaurantId) {
         menu.setDishes(dishService.getActualAll(restaurantId));
         return repository.save(menu);
     }
