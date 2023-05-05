@@ -3,6 +3,7 @@ package ru.javaops.topjava.service.restaurant;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javaops.topjava.error.NotFoundException;
@@ -57,6 +58,12 @@ class RestaurantServiceTest {
         newRest.setId(newId);
         Restaurant_MATCHER.assertMatch(created, newRest);
         Restaurant_MATCHER.assertMatch(service.get(newId), newRest);
+    }
+
+    @Test
+    void createDuplicate() {
+        assertThrows(DataIntegrityViolationException.class, ()
+                -> service.create(new Restaurant(null, "мясная деревня", "специализация блюдо русской кухни", "ул. Партизанская, дом 56")));
     }
 
     @Test

@@ -3,9 +3,11 @@ package ru.javaops.topjava.service.dish;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.javaops.topjava.error.NotFoundException;
 import ru.javaops.topjava.model.restaurant.Dish;
 import ru.javaops.topjava.repository.dish.DishRepository;
 import ru.javaops.topjava.repository.restaurant.RestaurantRepository;
+import ru.javaops.topjava.util.Util;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -26,8 +28,13 @@ public class DishService {
         return repository.getExisted(id);
     }
 
-    public List<Dish> getActualAll(int RestaurantId) {
-        List<Dish> list = getFilteredByRestaurant(d -> d.getCreated().isEqual(LocalDate.now()), RestaurantId);
+    public List<Dish> getActualAll(int restaurantId) {
+        List<Dish> list = Util.getFiltered(dish ->
+                dish.getCreated().isEqual(LocalDate.now()), repository, restaurantId);
+        if (list.isEmpty()) {
+            throw new NotFoundException("Dishes with restaurant.id = " + restaurantId + " not found");
+        }
+//        List<Dish> list = getFilteredByRestaurant(d -> d.getCreated().isEqual(LocalDate.now()), RestaurantId);
         return list;
     }
 
@@ -45,10 +52,10 @@ public class DishService {
         return repository.save(dish);
     }
 
-    private List<Dish> getFilteredByRestaurant(Predicate<Dish> filter, int RestaurantId) {
+  /*  private List<Dish> getFilteredByRestaurant(Predicate<Dish> filter, int RestaurantId) {
         return repository.getAllByRestaurantId(RestaurantId).stream()
                 .filter(filter)
                 .toList();
-    }
+    }*/
 }
 

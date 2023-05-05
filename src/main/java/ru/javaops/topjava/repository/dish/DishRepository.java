@@ -17,10 +17,11 @@ public interface DishRepository extends BaseRepository<Dish> {
     @Query("SELECT d FROM Dish d WHERE d.name = LOWER(:name)")
     Optional<Dish> findByNameIgnoreCase(String name);
 
-    @Query("SELECT d FROM Dish d WHERE d.restaurant.id=:id order by d.name")
-    List<Dish> getAllByRestaurantId(int id);
-
     default Dish getExistedByName(String name) {
         return findByNameIgnoreCase(name).orElseThrow(() -> new NotFoundException("Dish with name = " + name + " not found"));
     }
+
+    @Override
+    @Query("SELECT d FROM Dish d WHERE d.restaurant.id=:id order by d.name")
+    List<Dish> getAllByRestaurantId(int id);
 }

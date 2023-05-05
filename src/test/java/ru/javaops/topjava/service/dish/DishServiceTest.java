@@ -3,10 +3,12 @@ package ru.javaops.topjava.service.dish;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javaops.topjava.error.NotFoundException;
 import ru.javaops.topjava.model.restaurant.Dish;
+import ru.javaops.topjava.model.restaurant.Menu;
 
 import java.util.List;
 
@@ -40,6 +42,11 @@ class DishServiceTest {
     }
 
     @Test
+    void getActualAllNotExisted() {
+        assertThrows(NotFoundException.class, () -> service.getActualAll(NOT_FOUND));
+    }
+
+    @Test
     void getByName() {
         Dish actual = service.getByName("Суп");
         DISH_MATCHER.assertMatch(actual, dishMealVillage1);
@@ -58,6 +65,12 @@ class DishServiceTest {
         newRest.setId(newId);
         DISH_MATCHER.assertMatch(created, newRest);
         DISH_MATCHER.assertMatch(service.getById(newId), newRest);
+    }
+
+    @Test
+    void createDuplicate() {
+        assertThrows(DataIntegrityViolationException.class, ()
+                -> service.create(new Dish(null, "суп", 150), RESTAURANT_ID));
     }
 
     @Test
