@@ -30,6 +30,11 @@ spring:
     username: sa
     password:
 
+    spring:
+        h2:
+          console:
+            enabled=true:
+
   # Jackson Serialization Issue Resolver
   jackson.visibility:
     field: any
@@ -55,3 +60,4 @@ server.servlet:
     force: true
 
 springdoc.swagger-ui.path: /
+

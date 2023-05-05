@@ -11,7 +11,6 @@ import ru.javaops.topjava.util.Util;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.function.Predicate;
 
 @Service
 public class DishService {
@@ -34,7 +33,6 @@ public class DishService {
         if (list.isEmpty()) {
             throw new NotFoundException("Dishes with restaurant.id = " + restaurantId + " not found");
         }
-//        List<Dish> list = getFilteredByRestaurant(d -> d.getCreated().isEqual(LocalDate.now()), RestaurantId);
         return list;
     }
 
@@ -51,11 +49,4 @@ public class DishService {
         dish.setRestaurant(restaurantRepository.getExisted(restaurantId));
         return repository.save(dish);
     }
-
-  /*  private List<Dish> getFilteredByRestaurant(Predicate<Dish> filter, int RestaurantId) {
-        return repository.getAllByRestaurantId(RestaurantId).stream()
-                .filter(filter)
-                .toList();
-    }*/
 }
-

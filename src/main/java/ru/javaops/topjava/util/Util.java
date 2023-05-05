@@ -14,7 +14,7 @@ public class Util {
         return (start == null || value.compareTo(start) >= 0) && (end == null || value.compareTo(end) < 0);
     }
 
-   public static <T extends NamedEntity , R extends BaseRepository<T>> List<T> getFiltered(Predicate<T> filter, R  repository, int Id) {
+    public static <T extends NamedEntity, R extends BaseRepository<T>> List<T> getFiltered(Predicate<T> filter, R repository, int Id) {
         return repository.getAllByRestaurantId(Id).stream()
                 .filter(filter)
                 .toList();

@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javaops.topjava.error.NotFoundException;
-import ru.javaops.topjava.model.restaurant.Dish;
 import ru.javaops.topjava.model.restaurant.Menu;
 import ru.javaops.topjava.repository.menu.MenuRepository;
 import ru.javaops.topjava.repository.restaurant.RestaurantRepository;
@@ -27,13 +26,16 @@ public class MenuService {
         this.restaurantRepository = restaurantRepository;
     }
 
+    public Menu getById(int id) {
+        return repository.getExisted(id);
+    }
+
     public Menu getActualByRestaurantId(int restaurantId) {
         List<Menu> list = Util.getFiltered(menu ->
                 menu.getCreated().isEqual(LocalDate.now()), repository, restaurantId);
-        if (list.isEmpty()) {
-            throw new NotFoundException("Menu with restaurant.id = " + restaurantId + " not found");
-        }
-        return list.get(0);
+        return list.stream().
+                findFirst().
+                orElseThrow(() -> new NotFoundException("Menu with restaurant.id = " + restaurantId + " not found"));
     }
 
     public void delete(int id) {

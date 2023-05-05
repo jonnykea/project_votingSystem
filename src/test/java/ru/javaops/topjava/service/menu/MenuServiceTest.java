@@ -22,14 +22,26 @@ class MenuServiceTest {
     private MenuService service;
 
     @Test
+    void getById() {
+        Menu actual = service.getById(MENU_ID);
+        MENU_MATCHER.assertMatch(actual, menuMealVillage);
+    }
+
+    @Test
+    void getNotFoundById() {
+        assertThrows(NotFoundException.class, () -> service.getById(NOT_FOUND));
+    }
+
+    @Test
     void getActualByRestaurantId() {
         Menu actual = service.getActualByRestaurantId(RESTAURANT_ID);
         MENU_MATCHER.assertMatch(actual, menuMealVillage);
     }
 
     @Test
-    void getNotFound() {
-        assertThrows(NotFoundException.class, () -> service.getActualByRestaurantId(NOT_FOUND));
+    void getNotFoundByIdRestaurant() {
+        assertThrows(NotFoundException.class,
+                () -> service.getActualByRestaurantId(NOT_FOUND));
     }
 
     @Test
@@ -58,17 +70,20 @@ class MenuServiceTest {
 
     @Test
     void updateNotOwn() {
-        assertThrows(NotFoundException.class, () -> service.create(getUpdated(), NOT_FOUND));
+        assertThrows(NotFoundException.class,
+                () -> service.create(getUpdated(), NOT_FOUND));
     }
 
     @Test
     void delete() {
         service.delete(MENU_ID);
-        assertThrows(NotFoundException.class, () -> service.getActualByRestaurantId(MENU_ID));
+        assertThrows(NotFoundException.class,
+                () -> service.getActualByRestaurantId(MENU_ID));
     }
 
     @Test
     void deleteNotFound() {
-        assertThrows(NotFoundException.class, () -> service.delete(NOT_FOUND));
+        assertThrows(NotFoundException.class,
+                () -> service.delete(NOT_FOUND));
     }
 }
