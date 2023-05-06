@@ -9,7 +9,7 @@ import ru.javaops.topjava.model.restaurant.Restaurant;
 import ru.javaops.topjava.model.user.User;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "vote", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "user_id"}, name = "vote_unique_rest_id_user_id_idx")})
@@ -19,9 +19,9 @@ import java.time.LocalDateTime;
 @ToString(callSuper = true)
 public class Vote extends BaseEntity implements Serializable {
 
-    @Column(name = "vote_date", nullable = false, columnDefinition = "timestamp default now()", updatable = false)
+    @Column(name = "date", nullable = false, columnDefinition = "DATE default now()", updatable = false)
     @NotNull
-    private LocalDateTime voteDate = LocalDateTime.now();
+    private LocalDate date = LocalDate.now();
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
@@ -31,4 +31,11 @@ public class Vote extends BaseEntity implements Serializable {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    public Vote(Integer id, LocalDate date, Restaurant restaurant, User user){
+        super(id);
+        this.date = date;
+        this.restaurant = restaurant;
+        this.user = user;
+    }
 }

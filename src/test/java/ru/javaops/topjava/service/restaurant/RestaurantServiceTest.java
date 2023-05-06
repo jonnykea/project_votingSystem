@@ -25,7 +25,7 @@ class RestaurantServiceTest {
     @Test
     void get() {
         Restaurant actual = service.get(RESTAURANT_ID);
-        Restaurant_MATCHER.assertMatch(actual, meal_village);
+        RESTAURANT_MATCHER.assertMatch(actual, meal_village);
     }
 
     @Test
@@ -36,13 +36,13 @@ class RestaurantServiceTest {
     @Test
     void getActualAll() {
         List<Restaurant> actual = service.getActualAll();
-        Restaurant_MATCHER.assertMatch(actual, restaurants);
+        RESTAURANT_MATCHER.assertMatch(actual, restaurants);
     }
 
     @Test
     void getByName() {
         Restaurant actual = service.getByName("ПЕКИН");
-        Restaurant_MATCHER.assertMatch(actual, harbin);
+        RESTAURANT_MATCHER.assertMatch(actual, pekin);
     }
 
     @Test
@@ -56,8 +56,8 @@ class RestaurantServiceTest {
         int newId = created.id();
         Restaurant newRest = getNew();
         newRest.setId(newId);
-        Restaurant_MATCHER.assertMatch(created, newRest);
-        Restaurant_MATCHER.assertMatch(service.get(newId), newRest);
+        RESTAURANT_MATCHER.assertMatch(created, newRest);
+        RESTAURANT_MATCHER.assertMatch(service.get(newId), newRest);
     }
 
     @Test
@@ -70,7 +70,7 @@ class RestaurantServiceTest {
     void update() {
         Restaurant updated = getUpdated();
         service.create(updated);
-        Restaurant_MATCHER.assertMatch(updated, service.get(RESTAURANT_ID + 1));
+        RESTAURANT_MATCHER.assertMatch(updated, service.get(RESTAURANT_ID + 1));
     }
 
     @Test
