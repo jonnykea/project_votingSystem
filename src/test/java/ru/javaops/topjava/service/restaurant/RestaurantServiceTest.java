@@ -28,6 +28,12 @@ class RestaurantServiceTest {
         RESTAURANT_MATCHER.assertMatch(actual, meal_village);
     }
 
+/*    @Test
+    void getWithMenu() {
+        List<RestaurantTo> list = service.getAllWithMenu();
+        List<RestaurantTo> list1 = service.getAllWithMenu();
+    }*/
+
     @Test
     void getNotFound() {
         assertThrows(NotFoundException.class, () -> service.get(NOT_FOUND));

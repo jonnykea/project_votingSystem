@@ -36,7 +36,7 @@ public class Restaurant extends NamedEntity implements Serializable {
     @Size(min = 10, max = 250)
     private String address;
 
-    @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()", updatable = false)
+    @Column(name = "registered", nullable = false, columnDefinition = "DATE default now()", updatable = false)
     @NotNull
     private LocalDate registered = LocalDate.now();
 

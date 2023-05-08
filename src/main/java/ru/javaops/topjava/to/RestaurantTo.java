@@ -10,9 +10,9 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RestaurantToWithMenu {
-    LocalDate registered;
+public class RestaurantTo {
     String name;
+    LocalDate registered;
     String description;
     String address;
     Menu menu;

@@ -2,8 +2,10 @@ package ru.javaops.topjava.service.restaurant;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.javaops.topjava.error.NotFoundException;
 import ru.javaops.topjava.model.restaurant.Restaurant;
 import ru.javaops.topjava.repository.restaurant.RestaurantRepository;
+import ru.javaops.topjava.to.RestaurantTo;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -27,9 +29,13 @@ public class RestaurantService {
         return list;
     }
 
-  /*  public List<RestaurantToWithMenu> getAllWithMenu() {
+    public List<RestaurantTo> getAllWithMenu() {
+        List<RestaurantTo> list = repository.getRestaurantsWithMenu();
+        if(list.isEmpty()){
+            throw new NotFoundException("Restaurants not found");
+        }
         return repository.getRestaurantsWithMenu();
-    }*/
+    }
 
     public Restaurant getByName(String name) {
         return repository.getExistedByName(name);

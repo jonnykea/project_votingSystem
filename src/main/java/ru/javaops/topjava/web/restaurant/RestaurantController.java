@@ -12,6 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.javaops.topjava.model.restaurant.Restaurant;
 import ru.javaops.topjava.repository.vote.VoteRepository;
 import ru.javaops.topjava.service.restaurant.RestaurantService;
+import ru.javaops.topjava.to.RestaurantTo;
 import ru.javaops.topjava.to.VoteToRating;
 
 import java.net.URI;
@@ -48,12 +49,11 @@ public class RestaurantController {
         return service.getByName(name);
     }
 
-/*    @GetMapping("/{id}/with-menu")
-    public ResponseEntity<RestaurantToWithMenu> getWithMeals(@PathVariable int id) {
-        return super.getWithMeals(id);
-    }*/
-
-    //    @Secured("ROLE_ADMIN")
+    @GetMapping("/all with-menu")
+    public List<RestaurantTo> getWithMenu() {
+        log.info("getAll with menu");
+        return service.getAllWithMenu();
+    }
 
     @GetMapping("/all")
     public List<Restaurant> getAll() {

@@ -26,7 +26,7 @@ public class Menu extends NamedEntity implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Column(name = "date", nullable = false, columnDefinition = "timestamp default now()", updatable = false)
+    @Column(name = "date", nullable = false, columnDefinition = "DATE default now()", updatable = false)
     @NotNull
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDate created = LocalDate.now();

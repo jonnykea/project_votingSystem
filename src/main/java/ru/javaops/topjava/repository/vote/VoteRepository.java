@@ -24,22 +24,6 @@ public interface VoteRepository extends BaseRepository<Vote> {
     @Query("SELECT COUNT (*) FROM Vote v WHERE v.date = CAST(now() as date)")
     int countVotes();
 
- /*   @Query(value = """
-            select r.NAME as name, COUNT(RESTAURANT_ID) as rating
-            FROM VOTE
-                     left join RESTAURANT R on R.ID = VOTE.RESTAURANT_ID
-            WHERE DATE = CAST(now() as date)
-            group by r.NAME
-            """, nativeQuery = true)
-    List<VoteToRating> getRestaurantRating();*/
-
- /*   """
-            SELECT r.name, COUNT(v.restaurant) as rating
-            FROM Vote v
-            LEFT JOIN v.restaurant r ON r.id
-            WHERE v.date = CAST(now() as date)
-            GROUP by r.name
-            """*/
     @Query("""
             SELECT new ru.javaops.topjava.to.VoteToRating(r.name, cast(count(v.restaurant) as INTEGER)) 
             FROM Vote v 

@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.javaops.topjava.error.NotFoundException;
 import ru.javaops.topjava.model.restaurant.Restaurant;
 import ru.javaops.topjava.repository.BaseRepository;
+import ru.javaops.topjava.to.RestaurantTo;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,11 +22,12 @@ public interface RestaurantRepository extends BaseRepository<Restaurant> {
     default Restaurant getExistedByName(String name) {
         return findByNameIgnoreCase(name).orElseThrow(() -> new NotFoundException("Restaurant with name =" + name + " not found"));
     }
-   /* @Query("""
-            SELECT new ru.javaops.topjava.to.RestaurantToWithMenu(r.name,r.description, m) 
-            FROM Restaurant r
-            LEFT JOIN Menu m 
-            WHERE r.registered = CAST(now() as date) 
-            GROUP by r.name""")
-    List<RestaurantToWithMenu> getRestaurantsWithMenu();*/
+
+    @Query("""
+            SELECT new ru.javaops.topjava.to.RestaurantTo(r.name,r.registered,r.description,r.address,m)
+            FROM Menu m
+            LEFT JOIN m.restaurant r
+            WHERE r.registered = CAST(now() as date)
+            """)
+    List<RestaurantTo> getRestaurantsWithMenu();
 }
