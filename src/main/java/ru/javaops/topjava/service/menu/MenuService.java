@@ -38,6 +38,13 @@ public class MenuService {
                 orElseThrow(() -> new NotFoundException("Menu with restaurant.id = " + restaurantId + " not found"));
     }
 
+    public Menu getActualByRestaurantIdWithDishes(int restaurantId) {
+        List<Menu> list = repository.getAllByRestaurantIdWithDishes(restaurantId);
+        return list.stream().
+                findFirst().
+                orElseThrow(() -> new NotFoundException("Menu with restaurant.id = " + restaurantId + " not found"));
+    }
+
     public void delete(int id) {
         repository.deleteExisted(id);
     }

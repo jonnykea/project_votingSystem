@@ -13,4 +13,13 @@ public interface MenuRepository extends BaseRepository<Menu> {
     @Override
     @Query("SELECT m FROM Menu m WHERE m.restaurant.id=:id")
     List<Menu> getAllByRestaurantId(int id);
+
+
+    @Query(value = """
+            select * FROM Menu m
+                     left join Dish d on m.RESTAURANT_ID= d.RESTAURANT_ID
+            WHERE m.DATE = CAST(now() as date)
+            group by m.NAME
+            """, nativeQuery = true)
+    List<Menu> getAllByRestaurantIdWithDishes(int id);
 }

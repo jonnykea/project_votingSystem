@@ -10,6 +10,8 @@ import ru.javaops.topjava.error.NotFoundException;
 import ru.javaops.topjava.model.Vote;
 import ru.javaops.topjava.to.VoteToRating;
 
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -60,13 +62,35 @@ class VoteServiceTest {
         newV.setId(newId);
         VOTE_WITH_RESTARAUNT_AND_USER_MATCHER.assertMatch(created, newV);
         VOTE_WITH_RESTARAUNT_AND_USER_MATCHER.assertMatch(service.getByIdWithUserAndRestaurant(VOTE_ID + 3), newV);
-        assertEquals(4,service.countVotesForToday());
+        assertEquals(4, service.countVotesForToday());
     }
 
     @Test
-    void update() {
+    void updateAfterTime() {
+        Clock clock = Clock.fixed(Instant.parse("2023-05-10T11:01:00.00Z"), ZoneId.of("UTC"));
         assertThrows(DontAllowVoteException.class,
-                () -> service.create(getUpdated(), ADMIN_ID, RESTAURANT_ID + 1));
+                () -> service.createForTest(getUpdated(), ADMIN_ID, RESTAURANT_ID + 1, clock));
+    }
+
+    @Test
+    void updateBeforeTime() {
+        Clock clock = Clock.fixed(Instant.parse("2023-05-10T10:59:00.00Z"), ZoneId.of("UTC"));
+        Vote newVote = getNew();
+        Vote created = service.createForTest(newVote, NEW_USER_ID, RESTAURANT_ID + 1, clock);
+        int newId = created.id();
+        Vote newV = getNew();
+        newV.setId(newId);
+        VOTE_WITH_RESTARAUNT_AND_USER_MATCHER.assertMatch(created, newV);
+        VOTE_WITH_RESTARAUNT_AND_USER_MATCHER.assertMatch(service.getByIdWithUserAndRestaurant(VOTE_ID + 3), newV);
+        assertEquals(4, service.countVotesForToday());
+    }
+
+    @Test
+    public void checkMockingTime() {
+        Clock clock = Clock.fixed(Instant.parse("2023-05-10T10:00:00.00Z"), ZoneId.of("UTC"));
+        String dateTimeExpected = "2023-05-10T10:00";
+        LocalDateTime dateTime = LocalDateTime.now(clock);
+        assertEquals(dateTime.toString(), dateTimeExpected);
     }
 
     @Test
@@ -74,6 +98,6 @@ class VoteServiceTest {
         service.delete(VOTE_ID);
         assertThrows(NotFoundException.class,
                 () -> service.getById(VOTE_ID));
-        assertEquals(2,service.countVotesForToday());
+        assertEquals(2, service.countVotesForToday());
     }
 }

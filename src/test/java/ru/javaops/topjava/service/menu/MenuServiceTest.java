@@ -34,7 +34,7 @@ class MenuServiceTest {
 
     @Test
     void getActualByRestaurantId() {
-        Menu actual = service.getActualByRestaurantId(RESTAURANT_ID);
+        Menu actual = service.getActualByRestaurantIdWithDishes(RESTAURANT_ID);
         MENU_MATCHER.assertMatch(actual, menuMealVillage);
     }
 

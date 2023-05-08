@@ -1,5 +1,6 @@
 package ru.javaops.topjava.model.restaurant;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -27,6 +28,7 @@ public class Menu extends NamedEntity implements Serializable {
 
     @Column(name = "date", nullable = false, columnDefinition = "timestamp default now()", updatable = false)
     @NotNull
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDate created = LocalDate.now();
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -34,7 +36,7 @@ public class Menu extends NamedEntity implements Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "menu_id")
     @Size(min = 2, max = 5)
     private List<Dish> dishes;

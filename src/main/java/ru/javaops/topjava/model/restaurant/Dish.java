@@ -1,5 +1,6 @@
 package ru.javaops.topjava.model.restaurant;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -25,6 +26,7 @@ public class Dish extends NamedEntity implements Serializable {
 
     @Column(name = "date", nullable = false, columnDefinition = "timestamp default now()", updatable = false)
     @NotNull
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDate created = LocalDate.now();
 
     @Column(name = "price", nullable = false)

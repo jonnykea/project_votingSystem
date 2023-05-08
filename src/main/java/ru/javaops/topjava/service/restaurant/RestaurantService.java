@@ -27,6 +27,10 @@ public class RestaurantService {
         return list;
     }
 
+  /*  public List<RestaurantToWithMenu> getAllWithMenu() {
+        return repository.getRestaurantsWithMenu();
+    }*/
+
     public Restaurant getByName(String name) {
         return repository.getExistedByName(name);
     }

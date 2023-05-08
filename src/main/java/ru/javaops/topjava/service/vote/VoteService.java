@@ -11,6 +11,7 @@ import ru.javaops.topjava.repository.user.UserRepository;
 import ru.javaops.topjava.repository.vote.VoteRepository;
 import ru.javaops.topjava.to.VoteToRating;
 
+import java.time.Clock;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -46,6 +47,21 @@ public class VoteService {
         boolean isVoted = repository.existsById(userId);
         if (isVoted) {
             boolean isAllowVote = !LocalTime.now().isAfter(timeToRevote);
+            if (!isAllowVote) {
+                throw new DontAllowVoteException("User with id = " + userId + " has voted");
+            }
+        }
+        vote.setUser(userRepository.getExisted(userId));
+        vote.setRestaurant(restaurantRepository.getExisted(restaurantId));
+        return repository.save(vote);
+    }
+
+    @Transactional
+    public Vote createForTest(Vote vote, int userId, int restaurantId, Clock clock) {
+        boolean isVoted = repository.existsById(userId);
+        if (isVoted) {
+            LocalTime localTime = LocalTime.now(clock);
+            boolean isAllowVote = !localTime.isAfter(timeToRevote);
             if (!isAllowVote) {
                 throw new DontAllowVoteException("User with id = " + userId + " has voted");
             }
