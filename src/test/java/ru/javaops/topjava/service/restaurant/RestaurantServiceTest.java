@@ -28,11 +28,11 @@ class RestaurantServiceTest {
         RESTAURANT_MATCHER.assertMatch(actual, meal_village);
     }
 
-/*    @Test
+    @Test
     void getWithMenu() {
-        List<RestaurantTo> list = service.getAllWithMenu();
-        List<RestaurantTo> list1 = service.getAllWithMenu();
-    }*/
+        List<Object[]> list = service.getAllWithMenu();
+        List<Object[]> list1 = service.getAllWithMenu();
+    }
 
     @Test
     void getNotFound() {
