@@ -7,9 +7,7 @@ import ru.javaops.topjava.error.NotFoundException;
 import ru.javaops.topjava.model.restaurant.Dish;
 import ru.javaops.topjava.repository.dish.DishRepository;
 import ru.javaops.topjava.repository.restaurant.RestaurantRepository;
-import ru.javaops.topjava.util.Util;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -28,8 +26,7 @@ public class DishService {
     }
 
     public List<Dish> getActualAll(int restaurantId) {
-        List<Dish> list = Util.getFiltered(dish ->
-                dish.getCreated().isEqual(LocalDate.now()), repository, restaurantId);
+        List<Dish> list = repository.getAllByRestaurantId(restaurantId);
         if (list.isEmpty()) {
             throw new NotFoundException("Dishes with restaurant.id = " + restaurantId + " not found");
         }
@@ -46,7 +43,8 @@ public class DishService {
 
     @Transactional
     public Dish create(Dish dish, int restaurantId) {
-        dish.setRestaurant(restaurantRepository.getExisted(restaurantId));
+        dish.setRestaurant(restaurantRepository.getReferenceById(restaurantId));
+//        dish.setRestaurant(restaurantRepository.getExisted(restaurantId));
         return repository.save(dish);
     }
 }

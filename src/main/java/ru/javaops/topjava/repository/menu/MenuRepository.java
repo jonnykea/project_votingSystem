@@ -10,16 +10,11 @@ import java.util.List;
 @Transactional(readOnly = true)
 public interface MenuRepository extends BaseRepository<Menu> {
 
-    @Override
-    @Query("SELECT m FROM Menu m WHERE m.restaurant.id=:id")
-    List<Menu> getAllByRestaurantId(int id);
-
-
     @Query(value = """
-            select * FROM Menu m
-                     left join Dish d on m.RESTAURANT_ID= d.RESTAURANT_ID
-            WHERE m.DATE = CAST(now() as date)
-            group by m.NAME
-            """, nativeQuery = true)
-    List<Menu> getAllByRestaurantIdWithDishes(int id);
+            SELECT m
+            FROM Menu m
+            WHERE m.created = CAST(now() as date)
+              AND m.restaurant.id =:id   
+            """)
+    List<Menu> getByRestaurantId(int id);
 }

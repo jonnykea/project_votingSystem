@@ -1,5 +1,6 @@
 package ru.javaops.topjava.model.restaurant;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -16,7 +17,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "menu", uniqueConstraints =
-        {@UniqueConstraint(columnNames = {"name", "restaurant_id"}, name = "menu_unique_name_r_id_idx")})
+        {@UniqueConstraint(columnNames = {"date", "restaurant_id"}, name = "menu_unique_date_r_id_idx")})
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -31,14 +32,16 @@ public class Menu extends NamedEntity implements Serializable {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDate created = LocalDate.now();
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+//    @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "menu_id")
     @Size(min = 2, max = 5)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Dish> dishes;
 
     public Menu(Integer id, String name) {

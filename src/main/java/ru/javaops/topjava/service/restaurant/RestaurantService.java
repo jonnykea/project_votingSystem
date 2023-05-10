@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.javaops.topjava.error.NotFoundException;
 import ru.javaops.topjava.model.restaurant.Restaurant;
 import ru.javaops.topjava.repository.restaurant.RestaurantRepository;
+import ru.javaops.topjava.to.RestaurantTo;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -28,9 +29,9 @@ public class RestaurantService {
         return list;
     }
 
-    public List<Object[]> getAllWithMenu() {
+    public List<RestaurantTo> getAllWithMenu() {
 //        List<RestaurantTo> list = repository.getRestaurantsWithMenu();
-        List<Object[]> list = repository.getRestaurantsWithMenu();
+        List<RestaurantTo> list = repository.getRestaurantsWithMenu();
         if(list.isEmpty()){
             throw new NotFoundException("Restaurants not found");
         }

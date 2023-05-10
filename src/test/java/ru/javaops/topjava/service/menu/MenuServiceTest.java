@@ -23,25 +23,25 @@ class MenuServiceTest {
 
     @Test
     void getById() {
-        Menu actual = service.getById(MENU_ID);
+        Menu actual = service.get(MENU_ID);
         MENU_MATCHER.assertMatch(actual, menuMealVillage);
     }
 
     @Test
     void getNotFoundById() {
-        assertThrows(NotFoundException.class, () -> service.getById(NOT_FOUND));
+        assertThrows(NotFoundException.class, () -> service.get(NOT_FOUND));
     }
 
     @Test
     void getActualByRestaurantId() {
-        Menu actual = service.getActualByRestaurantIdWithDishes(RESTAURANT_ID);
+        Menu actual = service.getByRestaurantId(RESTAURANT_ID);
         MENU_MATCHER.assertMatch(actual, menuMealVillage);
     }
 
     @Test
     void getNotFoundByIdRestaurant() {
         assertThrows(NotFoundException.class,
-                () -> service.getActualByRestaurantId(NOT_FOUND));
+                () -> service.getByRestaurantId(NOT_FOUND));
     }
 
     @Test
@@ -52,7 +52,7 @@ class MenuServiceTest {
         Menu newRest = getNew();
         newRest.setId(newId);
         MENU_WITH_RESTARAUNT_AND_DISHES_MATCHER.assertMatch(created, newRest);
-        MENU_WITH_RESTARAUNT_AND_DISHES_MATCHER.assertMatch(service.getActualByRestaurantId(RESTAURANT_NEW_ID), newRest);
+        MENU_WITH_RESTARAUNT_AND_DISHES_MATCHER.assertMatch(service.getByRestaurantId(RESTAURANT_NEW_ID), newRest);
     }
 
     @Test
@@ -65,7 +65,7 @@ class MenuServiceTest {
     void update() {
         Menu updated = getUpdated();
         service.create(updated, RESTAURANT_ID);
-        MENU_MATCHER.assertMatch(updated, service.getActualByRestaurantId(RESTAURANT_ID));
+        MENU_MATCHER.assertMatch(updated, service.getByRestaurantId(RESTAURANT_ID));
     }
 
     @Test
@@ -78,7 +78,7 @@ class MenuServiceTest {
     void delete() {
         service.delete(MENU_ID);
         assertThrows(NotFoundException.class,
-                () -> service.getActualByRestaurantId(MENU_ID));
+                () -> service.getByRestaurantId(MENU_ID));
     }
 
     @Test

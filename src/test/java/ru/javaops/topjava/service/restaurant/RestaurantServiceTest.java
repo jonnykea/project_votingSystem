@@ -8,6 +8,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javaops.topjava.error.NotFoundException;
 import ru.javaops.topjava.model.restaurant.Restaurant;
+import ru.javaops.topjava.to.RestaurantTo;
 
 import java.util.List;
 
@@ -30,8 +31,8 @@ class RestaurantServiceTest {
 
     @Test
     void getWithMenu() {
-        List<Object[]> list = service.getAllWithMenu();
-        List<Object[]> list1 = service.getAllWithMenu();
+        List<RestaurantTo> list = service.getAllWithMenu();
+        List<RestaurantTo> list1 = service.getAllWithMenu();
     }
 
     @Test

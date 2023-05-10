@@ -7,8 +7,6 @@ import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javaops.topjava.error.NotFoundException;
 
-import java.util.List;
-
 // https://stackoverflow.com/questions/42781264/multiple-base-repositories-in-spring-data-jpa
 @NoRepositoryBean
 public interface BaseRepository<T> extends JpaRepository<T, Integer> {
@@ -29,9 +27,5 @@ public interface BaseRepository<T> extends JpaRepository<T, Integer> {
 
     default T getExisted(int id) {
         return findById(id).orElseThrow(() -> new NotFoundException("Entity with id=" + id + " not found"));
-    }
-
-    default List<T> getAllByRestaurantId(int id){
-        throw new UnsupportedOperationException();
     }
 }
