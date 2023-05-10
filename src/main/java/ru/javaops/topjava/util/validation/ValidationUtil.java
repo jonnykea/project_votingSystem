@@ -2,6 +2,7 @@ package ru.javaops.topjava.util.validation;
 
 import lombok.experimental.UtilityClass;
 import ru.javaops.topjava.HasId;
+import ru.javaops.topjava.error.DataConflictException;
 import ru.javaops.topjava.error.IllegalRequestDataException;
 
 @UtilityClass
@@ -19,6 +20,12 @@ public class ValidationUtil {
             bean.setId(id);
         } else if (bean.id() != id) {
             throw new IllegalRequestDataException(bean.getClass().getSimpleName() + " must has id=" + id);
+        }
+    }
+
+    public static void checkOwner(int restaurantId, int restaurantIdDishForUpdate) {
+        if (restaurantId != restaurantIdDishForUpdate) {
+            throw new DataConflictException("entity with " + restaurantId + " belong to other restaurant");
         }
     }
 }

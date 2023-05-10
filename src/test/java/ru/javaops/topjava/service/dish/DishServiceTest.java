@@ -8,7 +8,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javaops.topjava.error.NotFoundException;
 import ru.javaops.topjava.model.restaurant.Dish;
-import ru.javaops.topjava.model.restaurant.Menu;
 
 import java.util.List;
 
@@ -26,13 +25,13 @@ class DishServiceTest {
 
     @Test
     void getById() {
-        Dish actual = service.getById(DISH_ID);
+        Dish actual = service.get(DISH_ID);
         DISH_MATCHER.assertMatch(actual, dishMealVillage1);
     }
 
     @Test
     void getNotFound() {
-        assertThrows(NotFoundException.class, () -> service.getById(NOT_FOUND));
+        assertThrows(NotFoundException.class, () -> service.get(NOT_FOUND));
     }
 
     @Test
@@ -64,7 +63,7 @@ class DishServiceTest {
         Dish newRest = getNew();
         newRest.setId(newId);
         DISH_MATCHER.assertMatch(created, newRest);
-        DISH_MATCHER.assertMatch(service.getById(newId), newRest);
+        DISH_MATCHER.assertMatch(service.get(newId), newRest);
     }
 
     @Test
@@ -77,7 +76,7 @@ class DishServiceTest {
     void update() {
         Dish updated = getUpdated();
         service.create(updated, RESTAURANT_ID);
-        DISH_MATCHER.assertMatch(updated, service.getById(DISH_ID));
+        DISH_MATCHER.assertMatch(updated, service.get(DISH_ID));
     }
 
     @Test
@@ -88,7 +87,7 @@ class DishServiceTest {
     @Test
     void delete() {
         service.delete(DISH_ID);
-        assertThrows(NotFoundException.class, () -> service.getById(DISH_ID));
+        assertThrows(NotFoundException.class, () -> service.get(DISH_ID));
     }
 
     @Test

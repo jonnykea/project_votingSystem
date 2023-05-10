@@ -32,6 +32,9 @@ public class Vote extends BaseEntity implements Serializable {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    public Vote(Integer id){
+        super(id);
+    }
     public Vote(Integer id, LocalDate date, Restaurant restaurant, User user){
         super(id);
         this.date = date;

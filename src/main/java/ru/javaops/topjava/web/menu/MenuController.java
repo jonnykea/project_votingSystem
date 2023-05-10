@@ -23,14 +23,13 @@ public class MenuController {
 
     static final String REST_URL = "/api/restaurants/id/menu";
 
-
-    @GetMapping("/{restaurantId}")
+    @GetMapping("/{restaurantId}/with-dishes")
     public Menu getByRestaurantId(@PathVariable int restaurantId) {
         log.info("getAll with dishes {}", restaurantId);
         return service.getByRestaurantId(restaurantId);
     }
 
-    @GetMapping("/{id}/")
+    @GetMapping("/{id}")
     public Menu get(@PathVariable int id) {
         log.info("get");
         return service.get(id);

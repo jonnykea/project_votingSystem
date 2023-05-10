@@ -40,11 +40,6 @@ public class Dish extends NamedEntity implements Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
 
-    public Dish(Integer id, String name, LocalDate created, int price) {
-        this(id, name, price);
-        this.created = created;
-    }
-
     public Dish(Integer id, String name, int price) {
         super(id, name);
         this.price = price;

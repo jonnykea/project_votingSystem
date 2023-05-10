@@ -22,13 +22,13 @@ public interface RestaurantRepository extends BaseRepository<Restaurant> {
     default Restaurant getExistedByName(String name) {
         return findByNameIgnoreCase(name).orElseThrow(() -> new NotFoundException("Restaurant with name =" + name + " not found"));
     }
-      @Query("""
-            SELECT new ru.javaops.topjava.to.RestaurantTo(  r.name,r.description,r.address,listagg (d.name , '; '))
+
+    @Query("""
+            SELECT new ru.javaops.topjava.to.RestaurantTo(r.name,r.description,r.address,listagg (d.name , '; '))
             FROM Dish d
             LEFT JOIN d.restaurant r
             WHERE d.created = CAST(now() as date)
             GROUP BY r.name
             """)
     List<RestaurantTo> getRestaurantsWithMenu();
-//
 }

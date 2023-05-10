@@ -3,7 +3,7 @@ package ru.javaops.topjava.service.vote;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.javaops.topjava.error.DontAllowVoteException;
+import ru.javaops.topjava.error.DataConflictException;
 import ru.javaops.topjava.error.NotFoundException;
 import ru.javaops.topjava.model.Vote;
 import ru.javaops.topjava.repository.restaurant.RestaurantRepository;
@@ -46,9 +46,9 @@ public class VoteService {
     public Vote create(Vote vote, int userId, int restaurantId) {
         boolean isVoted = repository.existsById(userId);
         if (isVoted) {
-            boolean isAllowVote = !LocalTime.now().isAfter(timeToRevote);
-            if (!isAllowVote) {
-                throw new DontAllowVoteException("User with id = " + userId + " has voted");
+            boolean isAllowed = !LocalTime.now().isAfter(timeToRevote);
+            if (!isAllowed) {
+                throw new DataConflictException("User with id = " + userId + " has voted");
             }
         }
         vote.setUser(userRepository.getExisted(userId));
@@ -61,9 +61,9 @@ public class VoteService {
         boolean isVoted = repository.existsById(userId);
         if (isVoted) {
             LocalTime localTime = LocalTime.now(clock);
-            boolean isAllowVote = !localTime.isAfter(timeToRevote);
-            if (!isAllowVote) {
-                throw new DontAllowVoteException("User with id = " + userId + " has voted");
+            boolean isAllowed = !localTime.isAfter(timeToRevote);
+            if (!isAllowed) {
+                throw new DataConflictException("User with id = " + userId + " has voted");
             }
         }
         vote.setUser(userRepository.getExisted(userId));
@@ -71,8 +71,8 @@ public class VoteService {
         return repository.save(vote);
     }
 
-    public int countVotesForToday(){
-        return  repository.countVotes();
+    public int countVotesForToday() {
+        return repository.countVotes();
     }
 
     public List<VoteToRating> getAllRatingForToday() {

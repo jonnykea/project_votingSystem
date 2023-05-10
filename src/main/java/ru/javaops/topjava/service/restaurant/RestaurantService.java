@@ -30,7 +30,6 @@ public class RestaurantService {
     }
 
     public List<RestaurantTo> getAllWithMenu() {
-//        List<RestaurantTo> list = repository.getRestaurantsWithMenu();
         List<RestaurantTo> list = repository.getRestaurantsWithMenu();
         if(list.isEmpty()){
             throw new NotFoundException("Restaurants not found");

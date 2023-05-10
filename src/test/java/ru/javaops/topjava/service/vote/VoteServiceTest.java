@@ -5,13 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
-import ru.javaops.topjava.error.DontAllowVoteException;
+import ru.javaops.topjava.error.DataConflictException;
 import ru.javaops.topjava.error.NotFoundException;
 import ru.javaops.topjava.model.Vote;
 import ru.javaops.topjava.to.VoteToRating;
 
 import java.time.*;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -68,7 +67,7 @@ class VoteServiceTest {
     @Test
     void updateAfterTime() {
         Clock clock = Clock.fixed(Instant.parse("2023-05-10T11:01:00.00Z"), ZoneId.of("UTC"));
-        assertThrows(DontAllowVoteException.class,
+        assertThrows(DataConflictException.class,
                 () -> service.createForTest(getUpdated(), ADMIN_ID, RESTAURANT_ID + 1, clock));
     }
 

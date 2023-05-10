@@ -21,7 +21,7 @@ public class DishService {
         this.restaurantRepository = restaurantRepository;
     }
 
-    public Dish getById(int id) {
+    public Dish get(int id) {
         return repository.getExisted(id);
     }
 
@@ -43,8 +43,7 @@ public class DishService {
 
     @Transactional
     public Dish create(Dish dish, int restaurantId) {
-        dish.setRestaurant(restaurantRepository.getReferenceById(restaurantId));
-//        dish.setRestaurant(restaurantRepository.getExisted(restaurantId));
+        dish.setRestaurant(restaurantRepository.getExisted(restaurantId));
         return repository.save(dish);
     }
 }
