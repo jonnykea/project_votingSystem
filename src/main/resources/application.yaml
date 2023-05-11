@@ -30,8 +30,6 @@ spring:
     username: sa
     password:
 
-    h2:console:enabled=true:
-
   # Jackson Serialization Issue Resolver
   jackson.visibility:
     field: any

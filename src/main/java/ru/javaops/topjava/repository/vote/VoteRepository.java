@@ -3,6 +3,7 @@ package ru.javaops.topjava.repository.vote;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
+import ru.javaops.topjava.error.NotFoundException;
 import ru.javaops.topjava.model.Vote;
 import ru.javaops.topjava.repository.BaseRepository;
 import ru.javaops.topjava.to.VoteToRating;
@@ -12,6 +13,9 @@ import java.util.Optional;
 
 @Transactional(readOnly = true)
 public interface VoteRepository extends BaseRepository<Vote> {
+
+    @Query("SELECT v FROM Vote v WHERE v.user.id =:userId" )
+    Optional<Vote> findByUserId(int userId);
 
     @EntityGraph(attributePaths = {"user", "restaurant"}, type = EntityGraph.EntityGraphType.FETCH)
     @Query("SELECT v FROM Vote v WHERE v.id=?1 AND v.date = CAST(now() as date)")
@@ -31,4 +35,8 @@ public interface VoteRepository extends BaseRepository<Vote> {
             WHERE v.date = CAST(now() as date) 
             GROUP by r.name""")
     List<VoteToRating> getRestaurantRating();
+
+    default Vote getExistedUserId(int userId) {
+        return findByUserId(userId).orElseThrow(() -> new NotFoundException("Vote with userId=" + userId + " not found"));
+    }
 }

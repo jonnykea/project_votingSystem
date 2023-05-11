@@ -35,5 +35,4 @@ VALUES ('суп', 150, 1),
 
 INSERT INTO VOTE (USER_ID, restaurant_id)
 VALUES (3, 1),
-       (2, 1),
-       (1, 2);
+       (2, 1);

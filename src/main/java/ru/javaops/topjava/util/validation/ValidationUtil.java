@@ -23,8 +23,8 @@ public class ValidationUtil {
         }
     }
 
-    public static void checkOwner(int restaurantId, int restaurantIdDishForUpdate) {
-        if (restaurantId != restaurantIdDishForUpdate) {
+    public static void checkOwner(int restaurantId, int restaurantIdFor) {
+        if (restaurantId != restaurantIdFor) {
             throw new DataConflictException("entity with " + restaurantId + " belong to other restaurant");
         }
     }

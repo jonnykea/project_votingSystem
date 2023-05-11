@@ -29,8 +29,8 @@ public class VoteService {
         this.restaurantRepository = restaurantRepository;
     }
 
-    public Vote getById(int id) {
-        return repository.getExisted(id);
+    public Vote getById(int userId) {
+        return repository.findByUserId(userId).orElseThrow();
     }
 
     public Vote getByIdWithUserAndRestaurant(int id) {
@@ -44,12 +44,15 @@ public class VoteService {
 
     @Transactional
     public Vote create(Vote vote, int userId, int restaurantId) {
-        boolean isVoted = repository.existsById(userId);
+        boolean isVoted = repository.findByUserId(userId).isPresent();
         if (isVoted) {
             boolean isAllowed = !LocalTime.now().isAfter(timeToRevote);
             if (!isAllowed) {
                 throw new DataConflictException("User with id = " + userId + " has voted");
             }
+        }
+        if (isVoted) {
+            delete(userId);
         }
         vote.setUser(userRepository.getExisted(userId));
         vote.setRestaurant(restaurantRepository.getExisted(restaurantId));

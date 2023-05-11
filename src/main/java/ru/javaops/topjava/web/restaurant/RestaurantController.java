@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.javaops.topjava.model.Vote;
 import ru.javaops.topjava.model.restaurant.Restaurant;
 import ru.javaops.topjava.repository.vote.VoteRepository;
 import ru.javaops.topjava.service.restaurant.RestaurantService;
@@ -63,11 +62,5 @@ public class RestaurantController {
     public List<VoteToRating> getAllWithRating() {
         log.info("getAllWithRating");
         return voteRepository.getRestaurantRating();
-    }
-
-    @GetMapping("/vote")
-    public List<Vote> getAllVote() {
-        log.info("getAllVote");
-        return voteRepository.getAll();
     }
 }
