@@ -2,6 +2,7 @@ package ru.javaops.topjava.config;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.ValidationException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,6 +21,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -63,6 +65,8 @@ public class RestExceptionHandler {
             put(FileNotFoundException.class, BAD_REQUEST);
             put(AccessDeniedException.class, FORBIDDEN);
             put(AuthenticationException.class, UNAUTHORIZED);
+            put(MethodArgumentNotValidException.class, BAD_DATA);
+            put(ConstraintViolationException.class, BAD_REQUEST);
         }
     };
 

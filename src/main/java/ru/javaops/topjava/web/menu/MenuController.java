@@ -25,7 +25,7 @@ public class MenuController {
 
     @GetMapping("/{restaurantId}/with-dishes")
     public Menu getByRestaurantId(@PathVariable int restaurantId) {
-        log.info("getAll with dishes {}", restaurantId);
+        log.info("getAll with dishes with restaurantId{}", restaurantId);
         return service.getByRestaurantId(restaurantId);
     }
 

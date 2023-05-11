@@ -1,9 +1,9 @@
-package ru.javaops.topjava.to;
+package ru.javaops.topjava.to.restaurant;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
+import ru.javaops.topjava.to.NamedTo;
 
 
 @Value
@@ -12,7 +12,6 @@ public class DishTo extends NamedTo {
     @NotNull
     Integer restaurantId;
 
-    @Column(name = "price", nullable = false)
     @NotNull
     Integer price;
 

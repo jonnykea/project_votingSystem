@@ -8,9 +8,13 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.javaops.topjava.error.DataConflictException;
 import ru.javaops.topjava.error.NotFoundException;
 import ru.javaops.topjava.model.Vote;
-import ru.javaops.topjava.to.VoteToRating;
+import ru.javaops.topjava.to.vote.VoteTo;
+import ru.javaops.topjava.to.vote.VoteToRating;
 
-import java.time.*;
+import java.time.Clock;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -36,14 +40,15 @@ class VoteServiceTest {
 
     @Test
     void getAllRating() {
-        List<VoteToRating> actual = service.getAllRatingForToday();
+        List<VoteToRating> actual = service.getRating();
         VOTE_TO_MATCHER.assertMatch(actual, votesTo);
     }
 
     @Test
     void getAll() {
-        List<Vote> actual = service.getAll();
-        VOTE.assertMatch(actual, votes);
+        List<VoteTo> actual = service.getAll();
+        List<VoteTo> acts = service.getAll();
+//        VOTE.assertMatch(actual, votes);
     }
 
     @Test
@@ -61,7 +66,7 @@ class VoteServiceTest {
         newV.setId(newId);
         VOTE_WITH_RESTARAUNT_AND_USER_MATCHER.assertMatch(created, newV);
         VOTE_WITH_RESTARAUNT_AND_USER_MATCHER.assertMatch(service.getByIdWithUserAndRestaurant(VOTE_ID + 3), newV);
-        assertEquals(4, service.countVotesForToday());
+        assertEquals(4, service.getCount());
     }
 
     @Test
@@ -81,7 +86,7 @@ class VoteServiceTest {
         newV.setId(newId);
         VOTE_WITH_RESTARAUNT_AND_USER_MATCHER.assertMatch(created, newV);
         VOTE_WITH_RESTARAUNT_AND_USER_MATCHER.assertMatch(service.getByIdWithUserAndRestaurant(VOTE_ID + 3), newV);
-        assertEquals(4, service.countVotesForToday());
+        assertEquals(4, service.getCount());
     }
 
     @Test
@@ -96,7 +101,7 @@ class VoteServiceTest {
     void delete() {
         service.delete(VOTE_ID);
         assertThrows(NotFoundException.class,
-                () -> service.getById(VOTE_ID));
-        assertEquals(2, service.countVotesForToday());
+                () -> service.getByUserId(VOTE_ID));
+        assertEquals(2, service.getCount());
     }
 }

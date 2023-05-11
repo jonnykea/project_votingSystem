@@ -2,7 +2,7 @@ package ru.javaops.topjava.service.vote;
 
 import ru.javaops.topjava.model.Vote;
 import ru.javaops.topjava.service.MatcherFactory;
-import ru.javaops.topjava.to.VoteToRating;
+import ru.javaops.topjava.to.vote.VoteToRating;
 
 import java.time.LocalDate;
 import java.util.List;

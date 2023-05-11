@@ -9,7 +9,8 @@ import ru.javaops.topjava.model.Vote;
 import ru.javaops.topjava.repository.restaurant.RestaurantRepository;
 import ru.javaops.topjava.repository.user.UserRepository;
 import ru.javaops.topjava.repository.vote.VoteRepository;
-import ru.javaops.topjava.to.VoteToRating;
+import ru.javaops.topjava.to.vote.VoteTo;
+import ru.javaops.topjava.to.vote.VoteToRating;
 
 import java.time.Clock;
 import java.time.LocalTime;
@@ -29,8 +30,8 @@ public class VoteService {
         this.restaurantRepository = restaurantRepository;
     }
 
-    public Vote getById(int userId) {
-        return repository.findByUserId(userId).orElseThrow();
+    public Vote getByUserId(int userId) {
+        return repository.getExistedUserId(userId);
     }
 
     public Vote getByIdWithUserAndRestaurant(int id) {
@@ -51,10 +52,7 @@ public class VoteService {
                 throw new DataConflictException("User with id = " + userId + " has voted");
             }
         }
-        if (isVoted) {
-            delete(userId);
-        }
-        vote.setUser(userRepository.getExisted(userId));
+        vote.setUser(userRepository.getReferenceById(userId));
         vote.setRestaurant(restaurantRepository.getExisted(restaurantId));
         return repository.save(vote);
     }
@@ -74,15 +72,15 @@ public class VoteService {
         return repository.save(vote);
     }
 
-    public int countVotesForToday() {
+    public int getCount() {
         return repository.countVotes();
     }
 
-    public List<VoteToRating> getAllRatingForToday() {
+    public List<VoteToRating> getRating() {
         return repository.getRestaurantRating();
     }
 
-    public List<Vote> getAll() {
+    public List<VoteTo> getAll() {
         return repository.getAll();
     }
 }

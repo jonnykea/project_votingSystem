@@ -8,7 +8,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javaops.topjava.error.NotFoundException;
 import ru.javaops.topjava.model.restaurant.Restaurant;
-import ru.javaops.topjava.to.RestaurantTo;
+import ru.javaops.topjava.to.restaurant.RestaurantTo;
 
 import java.util.List;
 

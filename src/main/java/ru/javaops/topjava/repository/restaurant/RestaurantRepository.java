@@ -5,7 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.javaops.topjava.error.NotFoundException;
 import ru.javaops.topjava.model.restaurant.Restaurant;
 import ru.javaops.topjava.repository.BaseRepository;
-import ru.javaops.topjava.to.RestaurantTo;
+import ru.javaops.topjava.to.restaurant.RestaurantTo;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +24,7 @@ public interface RestaurantRepository extends BaseRepository<Restaurant> {
     }
 
     @Query("""
-            SELECT new ru.javaops.topjava.to.RestaurantTo(r.name,r.description,r.address,listagg (d.name , '; '))
+            SELECT new ru.javaops.topjava.to.restaurant.RestaurantTo(r.name,r.description,r.address,listagg (d.name , '; '))
             FROM Dish d
             LEFT JOIN d.restaurant r
             WHERE d.created = CAST(now() as date)

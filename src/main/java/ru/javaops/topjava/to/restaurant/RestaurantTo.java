@@ -1,4 +1,4 @@
-package ru.javaops.topjava.to;
+package ru.javaops.topjava.to.restaurant;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class VoteToRating {
+public class RestaurantTo {
     String name;
-    Integer rating;
+    String description;
+    String address;
+    String dishes;
 }

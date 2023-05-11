@@ -2,7 +2,7 @@ package ru.javaops.topjava.util;
 
 import lombok.experimental.UtilityClass;
 import ru.javaops.topjava.model.restaurant.Dish;
-import ru.javaops.topjava.to.DishTo;
+import ru.javaops.topjava.to.restaurant.DishTo;
 
 @UtilityClass
 public class DishUtil {

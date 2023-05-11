@@ -13,8 +13,8 @@ import ru.javaops.topjava.model.restaurant.Dish;
 import ru.javaops.topjava.model.restaurant.Menu;
 import ru.javaops.topjava.service.dish.DishService;
 import ru.javaops.topjava.service.menu.MenuService;
-import ru.javaops.topjava.to.DishTo;
-import ru.javaops.topjava.to.MenuTo;
+import ru.javaops.topjava.to.restaurant.DishTo;
+import ru.javaops.topjava.to.restaurant.MenuTo;
 import ru.javaops.topjava.util.DishUtil;
 import ru.javaops.topjava.util.MenuUtil;
 
@@ -38,14 +38,21 @@ public class AdminMenuController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id) {
-        log.info("delete {}", id);
+    public void deleteMenu(@PathVariable int id) {
+        log.info("delete menu with id{}", id);
         service.delete(id);
+    }
+
+    @DeleteMapping("/dishes/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteDish(@PathVariable int id) {
+        log.info("delete dish with id{}", id);
+        dishService.delete(id);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Menu> createMenu(@Valid @RequestBody MenuTo menuTo) {
-        log.info("create {}", menuTo);
+        log.info("create menu {}", menuTo);
         checkNew(menuTo);
         int restaurantId = menuTo.getRestaurantId();
         Menu created = service.create(MenuUtil.createNewFromTo(menuTo), restaurantId);
@@ -54,22 +61,10 @@ public class AdminMenuController {
                 .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
-    @Transactional
-    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateMenu(@Valid @RequestBody MenuTo menuTo, @PathVariable int id) {
-        log.info("update {} with id={}", menuTo, id);
-        assureIdConsistent(menuTo, id);
-        int restaurantId = menuTo.getRestaurantId();
-        Menu menuForCheck = service.get(id);
-        int restaurantIdMenuForUpdate = menuForCheck.getRestaurant().getId();
-        checkOwner(restaurantId, restaurantIdMenuForUpdate);
-        service.create(MenuUtil.updateFromTo(menuTo), restaurantId);
-    }
 
     @PostMapping(value = "/dishes", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Dish> createDish(@Valid @RequestBody DishTo dishTo) {
-        log.info("create {}", dishTo);
+        log.info("create dish {}", dishTo);
         checkNew(dishTo);
         int restaurantId = dishTo.getRestaurantId();
         Dish created = dishService.create(DishUtil.createNewFromTo(dishTo), restaurantId);
@@ -80,15 +75,28 @@ public class AdminMenuController {
     }
 
     @Transactional
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateMenu(@Valid @RequestBody MenuTo menuTo, @PathVariable int id) {
+        log.info("update {} with id={}", menuTo, id);
+        assureIdConsistent(menuTo, id);
+        int restaurantIdFrom = menuTo.getRestaurantId();
+        Menu menuInside = service.get(id);
+        int restaurantIdInside = menuInside.getRestaurant().getId();
+        checkOwner(restaurantIdFrom, restaurantIdInside);
+        service.create(MenuUtil.updateFromTo(menuTo), restaurantIdFrom);
+    }
+
+    @Transactional
     @PutMapping(value = "/dishes/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateDish(@Valid @RequestBody DishTo dishTo, @PathVariable int id) {
         log.info("update {} with id={}", dishTo, id);
         assureIdConsistent(dishTo, id);
-        int restaurantId = dishTo.getRestaurantId();
-        Dish dishForCheck = dishService.get(id);
-        int restaurantIdDishForUpdate = dishForCheck.getRestaurant().getId();
-        checkOwner(restaurantId, restaurantIdDishForUpdate);
-        dishService.create(DishUtil.updateFromTo(dishTo), restaurantId);
+        int restaurantIdFrom = dishTo.getRestaurantId();
+        Dish dishInside = dishService.get(id);
+        int restaurantIdInside = dishInside.getRestaurant().getId();
+        checkOwner(restaurantIdFrom, restaurantIdInside);
+        dishService.create(DishUtil.updateFromTo(dishTo), restaurantIdFrom);
     }
 }

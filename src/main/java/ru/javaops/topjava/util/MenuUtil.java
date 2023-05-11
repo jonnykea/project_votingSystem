@@ -2,7 +2,7 @@ package ru.javaops.topjava.util;
 
 import lombok.experimental.UtilityClass;
 import ru.javaops.topjava.model.restaurant.Menu;
-import ru.javaops.topjava.to.MenuTo;
+import ru.javaops.topjava.to.restaurant.MenuTo;
 
 @UtilityClass
 public class MenuUtil {

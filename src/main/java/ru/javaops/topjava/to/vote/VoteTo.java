@@ -1,4 +1,4 @@
-package ru.javaops.topjava.to;
+package ru.javaops.topjava.to.vote;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class VoteToAll {
+public class VoteTo {
+    Integer id;
+    String nameRestaurant;
     String nameUser;
-    Integer voteFor;
 }
