@@ -8,11 +8,11 @@
         <version>3.0.6</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>ru.javaops</groupId>
-    <artifactId>topjava-boot</artifactId>
+    <groupId>ru.jonnykea</groupId>
+    <artifactId>project</artifactId>
     <version>1.0</version>
-    <name>TopJava Boot</name>
-    <description>Calories Management application (TopJava) Spring Boot migration</description>
+    <name>vote</name>
+    <description>voting system for restaurants</description>
 
     <properties>
         <java.version>17</java.version>
