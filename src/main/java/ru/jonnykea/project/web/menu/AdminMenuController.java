@@ -2,6 +2,7 @@ package ru.jonnykea.project.web.menu;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,12 +24,11 @@ import java.net.URI;
 
 import static org.slf4j.LoggerFactory.getLogger;
 import static ru.jonnykea.project.util.validation.ValidationUtil.*;
+@Slf4j
 @AllArgsConstructor
 @RestController
 @RequestMapping(value = AdminMenuController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class AdminMenuController {
-
-    protected final Logger log = getLogger(getClass());
 
     protected MenuService service;
 

@@ -14,16 +14,9 @@ import java.util.Optional;
 
 @Transactional(readOnly = true)
 public interface VoteRepository extends BaseRepository<Vote> {
-    @Transactional
-    @Query("DELETE FROM Vote v WHERE v.user.id =:userId")
-    int deleteByUserId(int userId);
 
     @Query("SELECT v FROM Vote v WHERE v.user.id =:userId")
     Optional<Vote> findByUserId(int userId);
-
-    @EntityGraph(attributePaths = {"user", "restaurant"}, type = EntityGraph.EntityGraphType.FETCH)
-    @Query("SELECT v FROM Vote v WHERE v.id=?1 AND v.date = CAST(now() as date)")
-    Optional<Vote> getWithUserAndRestaurant(int id);
 
     @Query("SELECT COUNT (*) FROM Vote v WHERE v.date = CAST(now() as date)")
     int countVotes();

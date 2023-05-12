@@ -32,7 +32,7 @@ spring:
 logging:
   level:
     root: WARN
-    ru.javaops.topjava: DEBUG
+    ru.jonnykea.project: DEBUG
     org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: DEBUG
 
 server.servlet:
@@ -42,4 +42,3 @@ server.servlet:
     force: true
 
 springdoc.swagger-ui.path: /
-

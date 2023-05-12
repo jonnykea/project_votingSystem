@@ -11,14 +11,6 @@ import java.util.Optional;
 
 @Transactional(readOnly = true)
 public interface DishRepository extends BaseRepository<Dish> {
-
-    @Query("SELECT d FROM Dish d WHERE d.name = LOWER(:name)")
-    Optional<Dish> findByNameIgnoreCase(String name);
-
-    default Dish getExistedByName(String name) {
-        return findByNameIgnoreCase(name).orElseThrow(() -> new NotFoundException("Dish with name = " + name + " not found"));
-    }
-
     @Query(value = """
             SELECT d FROM Dish d
             WHERE d.created = CAST(now() as date)

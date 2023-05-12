@@ -1,6 +1,7 @@
 package ru.jonnykea.project.web.user;
 
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,7 +16,7 @@ import java.util.List;
 
 import static ru.jonnykea.project.util.validation.ValidationUtil.assureIdConsistent;
 import static ru.jonnykea.project.util.validation.ValidationUtil.checkNew;
-
+@Slf4j
 @RestController
 @RequestMapping(value = AdminUserController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class AdminUserController extends AbstractUserController {

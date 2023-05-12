@@ -1,5 +1,6 @@
 package ru.jonnykea.project.web.user;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.WebDataBinder;
@@ -8,9 +9,8 @@ import ru.jonnykea.project.model.user.User;
 import ru.jonnykea.project.repository.user.UserRepository;
 
 import static org.slf4j.LoggerFactory.getLogger;
-
+@Slf4j
 public abstract class AbstractUserController {
-    protected final Logger log = getLogger(getClass());
 
     @Autowired
     protected UserRepository repository;

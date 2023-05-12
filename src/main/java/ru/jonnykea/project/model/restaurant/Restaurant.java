@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import ru.jonnykea.project.model.NamedEntity;
+import ru.jonnykea.project.util.validation.NoHtml;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -28,11 +29,13 @@ public class Restaurant extends NamedEntity implements Serializable {
 
     @Column(name = "description", nullable = false)
     @NotBlank
+    @NoHtml
     @Size(min = 10, max = 100)
     private String description;
 
     @Column(name = "address", nullable = false)
     @NotBlank
+    @NoHtml
     @Size(min = 10, max = 250)
     private String address;
 

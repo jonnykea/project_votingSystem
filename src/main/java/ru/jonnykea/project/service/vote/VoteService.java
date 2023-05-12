@@ -29,11 +29,6 @@ public class VoteService {
         return repository.getExistedUserId(userId);
     }
 
-    public Vote getByIdWithUserAndRestaurant(int id) {
-        return repository.getWithUserAndRestaurant(id).orElseThrow(() ->
-                new NotFoundException("Vote with id=" + id + " not found"));
-    }
-
     public void delete(int id) {
         repository.deleteExisted(id);
     }

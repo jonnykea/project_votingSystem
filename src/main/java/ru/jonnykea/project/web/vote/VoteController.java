@@ -1,7 +1,7 @@
 package ru.jonnykea.project.web.vote;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +20,7 @@ import ru.jonnykea.project.util.validation.ValidationUtil;
 
 import java.net.URI;
 import java.util.List;
+@Slf4j
 @AllArgsConstructor
 @RestController
 @RequestMapping(value = VoteController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)

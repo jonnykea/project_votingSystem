@@ -5,7 +5,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Value;
 import ru.jonnykea.project.to.NamedTo;
 
-
 @Value
 @EqualsAndHashCode(callSuper = true)
 public class DishTo extends NamedTo {

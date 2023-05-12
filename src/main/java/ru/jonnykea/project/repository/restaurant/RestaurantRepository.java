@@ -16,9 +16,6 @@ public interface RestaurantRepository extends BaseRepository<Restaurant> {
     @Query("SELECT r FROM Restaurant r WHERE r.name = LOWER(:name)")
     Optional<Restaurant> findByNameIgnoreCase(String name);
 
-    @Query("SELECT r FROM Restaurant r ORDER BY r.registered DESC")
-    List<Restaurant> getAll();
-
     default Restaurant getExistedByName(String name) {
         return findByNameIgnoreCase(name).orElseThrow(() -> new NotFoundException("Restaurant with name =" + name + " not found"));
     }

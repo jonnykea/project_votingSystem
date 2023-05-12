@@ -30,10 +30,6 @@ public class DishService {
         return list;
     }
 
-    public Dish getByName(String name) {
-        return repository.getExistedByName(name);
-    }
-
     public void delete(int id) {
         repository.deleteExisted(id);
     }
