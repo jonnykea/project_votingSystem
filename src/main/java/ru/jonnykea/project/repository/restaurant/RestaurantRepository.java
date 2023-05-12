@@ -21,7 +21,7 @@ public interface RestaurantRepository extends BaseRepository<Restaurant> {
     }
 
     @Query("""
-            SELECT new ru.jonnykea.project.to.restaurant.RestaurantTo(r.name,r.description,r.address,listagg (d.name , '; '))
+            SELECT new ru.jonnykea.project.to.restaurant.RestaurantTo(r.id,r.name,r.description,r.address,listagg (d.name , '; '))
             FROM Dish d
             LEFT JOIN d.restaurant r
             WHERE d.created = CAST(now() as date)

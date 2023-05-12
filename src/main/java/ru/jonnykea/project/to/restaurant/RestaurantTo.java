@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RestaurantTo {
+    Integer id;
     String name;
     String description;
     String address;

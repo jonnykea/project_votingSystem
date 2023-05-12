@@ -1,9 +1,7 @@
 package ru.jonnykea.project.service.menu;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,8 +38,7 @@ public class MenuService {
     public void delete(int id) {
         repository.deleteExisted(id);
     }
-
-    @CacheEvict("menu")
+    @CacheEvict("menu, restaurants")
     @Transactional
     public Menu create(Menu menu, int restaurantId) {
         menu.setDishes(dishService.getActualAll(restaurantId));
