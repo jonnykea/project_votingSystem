@@ -1,5 +1,6 @@
 package ru.jonnykea.project.web.restaurant;
 
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -15,14 +16,13 @@ import java.util.Comparator;
 import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
-
+@AllArgsConstructor
 @RestController
 @RequestMapping(value = RestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestaurantController {
 
     protected final Logger log = getLogger(getClass());
 
-    @Autowired
     protected RestaurantService service;
 
     static final String REST_URL = "/api/restaurants";

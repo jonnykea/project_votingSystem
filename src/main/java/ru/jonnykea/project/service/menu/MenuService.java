@@ -1,5 +1,6 @@
 package ru.jonnykea.project.service.menu;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,18 +12,13 @@ import ru.jonnykea.project.service.dish.DishService;
 
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class MenuService {
+
     private final MenuRepository repository;
     private final DishService dishService;
     private final RestaurantRepository restaurantRepository;
-
-    @Autowired
-    public MenuService(MenuRepository repository, DishService dishService, RestaurantRepository restaurantRepository) {
-        this.repository = repository;
-        this.dishService = dishService;
-        this.restaurantRepository = restaurantRepository;
-    }
 
     public Menu get(int id) {
         return repository.getExisted(id);

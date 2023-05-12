@@ -1,6 +1,7 @@
 package ru.jonnykea.project.web.restaurant;
 
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,14 +19,13 @@ import java.net.URI;
 import static org.slf4j.LoggerFactory.getLogger;
 import static ru.jonnykea.project.util.validation.ValidationUtil.assureIdConsistent;
 import static ru.jonnykea.project.util.validation.ValidationUtil.checkNew;
-
+@AllArgsConstructor
 @RestController
 @RequestMapping(value = AdminRestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class AdminRestaurantController {
 
     protected final Logger log = getLogger(getClass());
 
-    @Autowired
     protected RestaurantService service;
     static final String REST_URL = "/api/admin/restaurants";
 

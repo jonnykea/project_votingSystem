@@ -1,6 +1,7 @@
 package ru.jonnykea.project.web.user;
 
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,12 +21,12 @@ import java.net.URI;
 import static ru.jonnykea.project.util.validation.ValidationUtil.assureIdConsistent;
 import static ru.jonnykea.project.util.validation.ValidationUtil.checkNew;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping(value = ProfileController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class ProfileController extends AbstractUserController {
     static final String REST_URL = "/api/profile";
 
-    @Autowired
     protected VoteService voteService;
 
     @GetMapping

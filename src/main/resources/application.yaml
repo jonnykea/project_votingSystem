@@ -17,16 +17,8 @@ spring:
 
   datasource:
     # ImMemory
-    url: jdbc:h2:mem:topjava
-    #    tcp: jdbc:h2:tcp://localhost:9092/mem:topjava
-    # Absolute path
-    #    url: jdbc:h2:C:/projects/topjava_boot/db/project
-    #        tcp: jdbc:h2:tcp://localhost:9092/C:/projects/topjava_boot/db/project
-    # Relative path form current dir
-    #    url: jdbc:h2:./db/topjava
-    # Relative path from home
-    #    url: jdbc:h2:~/topjava
-    #    tcp: jdbc:h2:tcp://localhost:9092/~/topjava
+    url: jdbc:h2:mem:project
+      #    tcp: jdbc:h2:tcp://localhost:9092/mem:project
     username: sa
     password:
 
@@ -36,11 +28,6 @@ spring:
     getter: none
     setter: none
     is-getter: none
-
-  # https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html#common-application-properties-cache
-  cache:
-    cache-names: users
-    caffeine.spec: maximumSize=5000,expireAfterAccess=60s
 
 logging:
   level:

@@ -1,6 +1,6 @@
 package ru.jonnykea.project.service.vote;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,19 +17,13 @@ import java.time.Clock;
 import java.time.LocalTime;
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class VoteService {
     private final LocalTime timeToRevote = LocalTime.of(11, 0);
     private final VoteRepository repository;
     private final UserRepository userRepository;
     private final RestaurantRepository restaurantRepository;
-
-    @Autowired
-    public VoteService(VoteRepository repository, UserRepository userRepository, RestaurantRepository restaurantRepository) {
-        this.repository = repository;
-        this.userRepository = userRepository;
-        this.restaurantRepository = restaurantRepository;
-    }
 
     public Vote getByUserId(int userId) {
         return repository.getExistedUserId(userId);

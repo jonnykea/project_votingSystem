@@ -1,5 +1,6 @@
 package ru.jonnykea.project.service.restaurant;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,14 +13,11 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.function.Predicate;
 
+@AllArgsConstructor
 @Service
 public class RestaurantService {
-    private final RestaurantRepository repository;
 
-    @Autowired
-    public RestaurantService(RestaurantRepository repository) {
-        this.repository = repository;
-    }
+    private final RestaurantRepository repository;
 
     public Restaurant get(int id) {
         return repository.getExisted(id);
