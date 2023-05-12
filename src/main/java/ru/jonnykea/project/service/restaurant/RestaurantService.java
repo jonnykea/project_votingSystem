@@ -2,6 +2,8 @@ package ru.jonnykea.project.service.restaurant;
 
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.jonnykea.project.error.NotFoundException;
@@ -22,12 +24,7 @@ public class RestaurantService {
     public Restaurant get(int id) {
         return repository.getExisted(id);
     }
-
-    public List<Restaurant> getActualAll() {
-        List<Restaurant> list = getFilteredRestaurants(r -> r.getRegistered().isEqual(LocalDate.now()));
-        return list;
-    }
-
+    @Cacheable("restaurants")
     public List<RestaurantTo> getAllWithMenu() {
         List<RestaurantTo> list = repository.getRestaurantsWithMenu();
         if (list.isEmpty()) {
@@ -40,10 +37,12 @@ public class RestaurantService {
         return repository.getExistedByName(name);
     }
 
+    @CacheEvict("restaurants")
     public void delete(int id) {
         repository.deleteExisted(id);
     }
 
+    @CacheEvict("restaurants")
     @Transactional
     public Restaurant create(Restaurant r) {
         if (!r.isNew()) {
@@ -52,11 +51,5 @@ public class RestaurantService {
             }
         }
         return repository.save(r);
-    }
-
-    private List<Restaurant> getFilteredRestaurants(Predicate<Restaurant> filter) {
-        return repository.getAll().stream()
-                .filter(filter)
-                .toList();
     }
 }

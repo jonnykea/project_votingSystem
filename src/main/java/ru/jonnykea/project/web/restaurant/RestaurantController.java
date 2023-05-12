@@ -16,6 +16,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
+
 @AllArgsConstructor
 @RestController
 @RequestMapping(value = RestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -43,13 +44,5 @@ public class RestaurantController {
     public List<RestaurantTo> getWithDishes() {
         log.info("getAll with menu");
         return service.getAllWithMenu();
-    }
-
-    @GetMapping
-    public List<Restaurant> getAll() {
-        log.info("getAll");
-        return service.getActualAll().stream()
-                .sorted(Comparator.comparing(Restaurant::getName))
-                .toList();
     }
 }

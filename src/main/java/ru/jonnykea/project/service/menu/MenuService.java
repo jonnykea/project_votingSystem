@@ -2,6 +2,9 @@ package ru.jonnykea.project.service.menu;
 
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.jonnykea.project.error.NotFoundException;
@@ -24,6 +27,7 @@ public class MenuService {
         return repository.getExisted(id);
     }
 
+    @Cacheable("menu")
     public Menu getByRestaurantId(int restaurantId) {
         List<Menu> list = repository.getByRestaurantId(restaurantId);
         Menu menu = list.stream().
@@ -32,11 +36,12 @@ public class MenuService {
         menu.setDishes(dishService.getActualAll(restaurantId));
         return menu;
     }
-
+    @CacheEvict("menu")
     public void delete(int id) {
         repository.deleteExisted(id);
     }
 
+    @CacheEvict("menu")
     @Transactional
     public Menu create(Menu menu, int restaurantId) {
         menu.setDishes(dishService.getActualAll(restaurantId));
