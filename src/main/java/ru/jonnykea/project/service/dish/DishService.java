@@ -1,6 +1,7 @@
 package ru.jonnykea.project.service.dish;
 
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.jonnykea.project.error.NotFoundException;
@@ -29,10 +30,12 @@ public class DishService {
         return list;
     }
 
+    @CacheEvict(value = {"restaurants", "menu"}, allEntries = true)
     public void delete(int id) {
         repository.deleteExisted(id);
     }
 
+    @CacheEvict(value = {"restaurants", "menu"}, allEntries = true)
     @Transactional
     public Dish create(Dish dish, int restaurantId) {
         dish.setRestaurant(restaurantRepository.getExisted(restaurantId));

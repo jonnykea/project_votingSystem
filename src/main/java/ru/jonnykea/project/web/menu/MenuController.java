@@ -2,8 +2,6 @@ package ru.jonnykea.project.web.menu;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.jonnykea.project.model.restaurant.Menu;
 import ru.jonnykea.project.service.menu.MenuService;
-
-import static org.slf4j.LoggerFactory.getLogger;
 
 @Slf4j
 @AllArgsConstructor
@@ -26,11 +22,5 @@ public class MenuController {
     public Menu getByRestaurantId(@PathVariable int restaurantId) {
         log.info("getAll with dishes with restaurantId{}", restaurantId);
         return service.getByRestaurantId(restaurantId);
-    }
-
-    @GetMapping("/{id}")
-    public Menu get(@PathVariable int id) {
-        log.info("get");
-        return service.get(id);
     }
 }

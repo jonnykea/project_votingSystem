@@ -17,11 +17,12 @@ import java.util.List;
 public class RestaurantService {
 
     private final RestaurantRepository repository;
-
+    @Cacheable(value = "restaurants", key = "#id")
     public Restaurant get(int id) {
         return repository.getExisted(id);
     }
-    @Cacheable("restaurants")
+
+    @Cacheable(value = "restaurants")
     public List<RestaurantTo> getAllWithMenu() {
         List<RestaurantTo> list = repository.getRestaurantsWithMenu();
         if (list.isEmpty()) {
@@ -34,12 +35,12 @@ public class RestaurantService {
         return repository.getExistedByName(name);
     }
 
-    @CacheEvict("restaurants")
+    @CacheEvict(value = "restaurants", allEntries = true)
     public void delete(int id) {
         repository.deleteExisted(id);
     }
 
-    @CacheEvict("restaurants")
+    @CacheEvict(value = "restaurants", allEntries = true)
     @Transactional
     public Restaurant create(Restaurant r) {
         if (!r.isNew()) {
