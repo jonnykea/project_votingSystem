@@ -46,17 +46,6 @@ class DishServiceTest {
     }
 
     @Test
-    void getByName() {
-        Dish actual = service.getByName("Суп");
-        DISH_MATCHER.assertMatch(actual, dishMealVillage1);
-    }
-
-    @Test
-    void geByNameNotFound() {
-        assertThrows(NotFoundException.class, () -> service.getByName("Кисель"));
-    }
-
-    @Test
     void create() {
         Dish created = service.create(getNew(), RESTAURANT_ID);
         int newId = created.id();

@@ -44,6 +44,11 @@ public class Menu extends NamedEntity implements Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Dish> dishes;
 
+    public Menu(Integer id, String name, LocalDate created) {
+        super(id, name);
+        this.created = created;
+    }
+
     public Menu(Integer id, String name) {
         super(id, name);
     }

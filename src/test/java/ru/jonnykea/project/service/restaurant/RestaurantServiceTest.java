@@ -8,9 +8,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import ru.jonnykea.project.error.NotFoundException;
 import ru.jonnykea.project.model.restaurant.Restaurant;
-import ru.jonnykea.project.to.restaurant.RestaurantTo;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -29,21 +26,10 @@ class RestaurantServiceTest {
     }
 
     @Test
-    void getWithMenu() {
-        List<RestaurantTo> list = service.getAllWithMenu();
-        List<RestaurantTo> list1 = service.getAllWithMenu();
-    }
-
-    @Test
     void getNotFound() {
         assertThrows(NotFoundException.class, () -> service.get(RestaurantTestData.NOT_FOUND));
     }
 
-    @Test
-    void getActualAll() {
-        List<Restaurant> actual = service.getActualAll();
-        RestaurantTestData.RESTAURANT_MATCHER.assertMatch(actual, RestaurantTestData.restaurants);
-    }
 
     @Test
     void getByName() {

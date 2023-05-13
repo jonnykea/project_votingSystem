@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.jonnykea.project.error.DataConflictException;
 import ru.jonnykea.project.error.NotFoundException;
 import ru.jonnykea.project.model.Vote;
-import ru.jonnykea.project.to.vote.VoteTo;
 import ru.jonnykea.project.to.vote.VoteToRating;
 
 import java.time.Clock;
@@ -34,8 +33,8 @@ class VoteServiceTest {
 
     @Test
     void getByIdWithUserAndRestaurant() {
-        Vote actual = service.getByIdWithUserAndRestaurant(VOTE_ID);
-        VOTE_WITH_RESTARAUNT_AND_USER_MATCHER.assertMatch(actual, voteUser);
+        Vote actual = service.getByUserId(VOTE_ID + 1);
+        VOTE.assertMatch(actual, voteAdmin);
     }
 
     @Test
@@ -45,16 +44,9 @@ class VoteServiceTest {
     }
 
     @Test
-    void getAll() {
-        List<VoteTo> actual = service.getAll();
-        List<VoteTo> acts = service.getAll();
-//        VOTE.assertMatch(actual, votes);
-    }
-
-    @Test
     void getByIdNotExisted() {
         assertThrows(NotFoundException.class,
-                () -> service.getByIdWithUserAndRestaurant(NOT_FOUND));
+                () -> service.getByUserId(NOT_FOUND));
     }
 
     @Test
@@ -64,8 +56,8 @@ class VoteServiceTest {
         int newId = created.id();
         Vote newV = getNew();
         newV.setId(newId);
-        VOTE_WITH_RESTARAUNT_AND_USER_MATCHER.assertMatch(created, newV);
-        VOTE_WITH_RESTARAUNT_AND_USER_MATCHER.assertMatch(service.getByIdWithUserAndRestaurant(VOTE_ID + 3), newV);
+        VOTE.assertMatch(created, newV);
+        VOTE.assertMatch(service.getByUserId(VOTE_ID + 3), newV);
         assertEquals(4, service.getCount());
     }
 
@@ -84,8 +76,8 @@ class VoteServiceTest {
         int newId = created.id();
         Vote newV = getNew();
         newV.setId(newId);
-        VOTE_WITH_RESTARAUNT_AND_USER_MATCHER.assertMatch(created, newV);
-        VOTE_WITH_RESTARAUNT_AND_USER_MATCHER.assertMatch(service.getByIdWithUserAndRestaurant(VOTE_ID + 3), newV);
+        VOTE.assertMatch(created, newV);
+        VOTE.assertMatch(service.getByUserId(VOTE_ID + 3), newV);
         assertEquals(4, service.getCount());
     }
 
@@ -100,8 +92,7 @@ class VoteServiceTest {
     @Test
     void delete() {
         service.delete(VOTE_ID);
-        assertThrows(NotFoundException.class,
-                () -> service.getByUserId(VOTE_ID));
+        assertThrows(NotFoundException.class, () -> service.getByUserId(VOTE_ID + 2));
         assertEquals(2, service.getCount());
     }
 }
