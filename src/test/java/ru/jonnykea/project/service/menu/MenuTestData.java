@@ -7,6 +7,8 @@ import static ru.jonnykea.project.service.dish.DishTestData.dishesMealVillage;
 import static ru.jonnykea.project.service.dish.DishTestData.newDishes;
 
 public class MenuTestData {
+    public static final MatcherFactory.Matcher<Menu> MENU_MATCHER_DISHES = MatcherFactory.usingIgnoringFieldsComparator(Menu.class, "restaurant", "dishes");
+
     public static final MatcherFactory.Matcher<Menu> MENU_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(Menu.class, "restaurant", "dishes.restaurant");
     public static final int NOT_FOUND = 10;
     public static final int MENU_ID = 1;

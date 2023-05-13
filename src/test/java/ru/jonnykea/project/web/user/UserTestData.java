@@ -25,7 +25,7 @@ public class UserTestData {
     public static final User guest = new User(GUEST_ID, "Guest", GUEST_MAIL, "{noop}guest");
     public static final User newUser = new User(NEW_USER_ID, "NewUser", NEW_USER_MAIL, "{noop}new");
     public static User getNew() {
-        return new User(null, "New", "new@gmail.com", "newPass", false, new Date(), Collections.singleton(Role.USER));
+        return new User(null, "New", "new@yandex.com", "newPass", false, new Date(), Collections.singleton(Role.USER));
     }
 
     public static User getUpdated() {

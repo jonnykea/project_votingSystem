@@ -1,4 +1,4 @@
-package ru.jonnykea.project.web.restaurant;
+package ru.jonnykea.project.web.menu;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,33 +6,35 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import ru.jonnykea.project.model.restaurant.Restaurant;
-import ru.jonnykea.project.service.restaurant.RestaurantService;
-import ru.jonnykea.project.to.restaurant.RestaurantToFrom;
+import ru.jonnykea.project.model.restaurant.Menu;
+import ru.jonnykea.project.service.menu.MenuService;
+import ru.jonnykea.project.service.restaurant.RestaurantTestData;
+import ru.jonnykea.project.to.restaurant.MenuTo;
 import ru.jonnykea.project.util.JsonUtil;
-import ru.jonnykea.project.util.RestaurantUtil;
+import ru.jonnykea.project.util.MenuUtil;
 import ru.jonnykea.project.web.AbstractControllerTest;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.jonnykea.project.service.restaurant.RestaurantTestData.*;
+import static ru.jonnykea.project.service.menu.MenuTestData.*;
+import static ru.jonnykea.project.service.restaurant.RestaurantTestData.RESTAURANT_ID;
 import static ru.jonnykea.project.web.user.UserTestData.ADMIN_MAIL;
 import static ru.jonnykea.project.web.user.UserTestData.USER_MAIL;
 
-class RestaurantControllerTest extends AbstractControllerTest {
-    private static final String REST_URL = RestaurantController.REST_URL + '/';
+class MenuControllerTest extends AbstractControllerTest {
+    private static final String REST_URL = AdminMenuController.REST_URL;
 
     @Autowired
-    private RestaurantService service;
+    private MenuService service;
 
     @Test
     @WithUserDetails(value = USER_MAIL)
     void get() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + RESTAURANT_ID))
+        perform(MockMvcRequestBuilders.get("/api/restaurants/id/menu/" + RESTAURANT_ID + "/with-dishes"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RESTAURANT_MATCHER.contentJson(meal_village));
+                .andExpect(MENU_MATCHER.contentJson(menuMealVillage));
     }
 
     @Test
@@ -44,26 +46,26 @@ class RestaurantControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void create() throws Exception {
-        RestaurantToFrom newTo = new RestaurantToFrom(null, "АМУР", "японская кухня", "Северное шоссе 55");
-        Restaurant newRestaurant = RestaurantUtil.createNewFromTo(newTo);
-        ResultActions action = perform(MockMvcRequestBuilders.post("/api/admin/restaurants")
+        MenuTo newTo = new MenuTo(null, "меню помидор", RESTAURANT_ID + 2);
+        Menu newMenu = getNew();
+        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newTo)))
                 .andDo(print())
                 .andExpect(status().isCreated());
 
-        Restaurant created = RESTAURANT_MATCHER.readFromJson(action);
+        Menu created = MENU_MATCHER.readFromJson(action);
         int newId = created.id();
-        newRestaurant.setId(newId);
-        RESTAURANT_MATCHER.assertMatch(created, newRestaurant);
-        RESTAURANT_MATCHER.assertMatch(service.get(newId), newRestaurant);
+        newMenu.setId(newId);
+        MENU_MATCHER.assertMatch(created, newMenu);
+        MENU_MATCHER.assertMatch(service.getByRestaurantId(RestaurantTestData.RESTAURANT_NEW_ID), newMenu);
     }
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void createInvalid() throws Exception {
-        RestaurantToFrom newTo = new RestaurantToFrom(null, null, null, null);
-        perform(MockMvcRequestBuilders.post("/api/admin/restaurants")
+        MenuTo newTo = new MenuTo(null, null, null);
+        perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newTo)))
                 .andDo(print())
@@ -72,26 +74,26 @@ class RestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
-    void  createDuplicate() throws Exception {
-        RestaurantToFrom newTo = new RestaurantToFrom(null, "пекин", "специализация блюдо китайской кухни", "пр. Интернациональный, дом 51");
-        Restaurant updated = RestaurantUtil.updateFromTo(newTo);
-        perform(MockMvcRequestBuilders.post("/api/admin/restaurants").contentType(MediaType.APPLICATION_JSON)
+    void createDuplicate() throws Exception {
+        MenuTo newTo = new MenuTo(null, "меню пекина", 2);
+        Menu updated = MenuUtil.updateFromTo(newTo);
+        perform(MockMvcRequestBuilders.post(REST_URL).contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updated)))
                 .andDo(print())
-                .andExpect(status().isConflict());
+                .andExpect(status().isUnprocessableEntity());
     }
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void update() throws Exception {
-        RestaurantToFrom newTo = new RestaurantToFrom(2, "ПЕКИН", "специализация блюдо китайской кухни", "пр. Интернациональный, дом 55");
-        Restaurant updated = RestaurantUtil.updateFromTo(newTo);
-        perform(MockMvcRequestBuilders.put("/api/admin/restaurants/2")
+        MenuTo newTo = new MenuTo(1, "обновленное меню мясной деревни", 1);
+        Menu updated = MenuUtil.updateFromTo(newTo);
+        perform(MockMvcRequestBuilders.put(REST_URL + "/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newTo)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        RESTAURANT_MATCHER.assertMatch(service.get(RESTAURANT_ID + 1), updated);
+        MENU_MATCHER_DISHES.assertMatch(updated, service.getByRestaurantId(RestaurantTestData.RESTAURANT_ID));
     }
 }

@@ -11,6 +11,7 @@ import ru.jonnykea.project.model.restaurant.Menu;
 import ru.jonnykea.project.service.restaurant.RestaurantTestData;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static ru.jonnykea.project.service.menu.MenuTestData.MENU_MATCHER;
 import static ru.jonnykea.project.service.menu.MenuTestData.menuMealVillage;
 
 @SpringBootTest
@@ -24,7 +25,7 @@ class MenuServiceTest {
     @Test
     void getById() {
         Menu actual = service.getByRestaurantId(RestaurantTestData.RESTAURANT_ID);
-        MenuTestData.MENU_MATCHER.assertMatch(actual, menuMealVillage);
+        MENU_MATCHER.assertMatch(actual, menuMealVillage);
     }
 
     @Test
@@ -35,7 +36,7 @@ class MenuServiceTest {
     @Test
     void getActualByRestaurantId() {
         Menu actual = service.getByRestaurantId(RestaurantTestData.RESTAURANT_ID);
-        MenuTestData.MENU_MATCHER.assertMatch(actual, menuMealVillage);
+        MENU_MATCHER.assertMatch(actual, menuMealVillage);
     }
 
     @Test
@@ -51,8 +52,8 @@ class MenuServiceTest {
         int newId = created.id();
         Menu newRest = MenuTestData.getNew();
         newRest.setId(newId);
-        MenuTestData.MENU_MATCHER.assertMatch(created, newRest);
-        MenuTestData.MENU_MATCHER.assertMatch(service.getByRestaurantId(RestaurantTestData.RESTAURANT_NEW_ID), newRest);
+        MENU_MATCHER.assertMatch(created, newRest);
+        MENU_MATCHER.assertMatch(service.getByRestaurantId(RestaurantTestData.RESTAURANT_NEW_ID), newRest);
     }
 
     @Test
@@ -65,7 +66,7 @@ class MenuServiceTest {
     void update() {
         Menu updated = MenuTestData.getUpdated();
         service.create(updated, RestaurantTestData.RESTAURANT_ID);
-        MenuTestData.MENU_MATCHER.assertMatch(updated, service.getByRestaurantId(RestaurantTestData.RESTAURANT_ID));
+        MENU_MATCHER.assertMatch(updated, service.getByRestaurantId(RestaurantTestData.RESTAURANT_ID));
     }
 
     @Test
