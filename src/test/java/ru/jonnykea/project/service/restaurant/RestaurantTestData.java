@@ -1,7 +1,7 @@
 package ru.jonnykea.project.service.restaurant;
 
+import ru.jonnykea.project.MatcherFactory;
 import ru.jonnykea.project.model.restaurant.Restaurant;
-import ru.jonnykea.project.service.MatcherFactory;
 
 import java.time.LocalDate;
 

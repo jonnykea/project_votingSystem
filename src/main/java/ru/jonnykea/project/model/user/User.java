@@ -67,7 +67,7 @@ public class User extends NamedEntity implements HasIdAndEmail, Serializable {
     }
 
     public User(Integer id, String name, String email, String password, Role... roles) {
-        this(id, name, email, password,  true, new Date(), Arrays.asList(roles));
+        this(id, name, email, password, true, new Date(), Arrays.asList(roles));
     }
 
     public User(Integer id, String name, String email, String password, boolean enabled, Date registered, Collection<Role> roles) {
@@ -82,6 +82,7 @@ public class User extends NamedEntity implements HasIdAndEmail, Serializable {
     public void setRoles(Collection<Role> roles) {
         this.roles = CollectionUtils.isEmpty(roles) ? EnumSet.noneOf(Role.class) : EnumSet.copyOf(roles);
     }
+
     public boolean hasRole(Role role) {
         return roles != null && roles.contains(role);
     }

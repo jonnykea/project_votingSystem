@@ -45,7 +45,7 @@ public class RestaurantService {
     public Restaurant create(Restaurant r) {
         if (!r.isNew()) {
             if (!repository.findById(r.getId()).isPresent()) {
-                throw new NotFoundException("Restaurant with id=" + r.getId() + " not found");
+                throw new NotFoundException("Restaurant with id= " + r.getId() + " not found");
             }
         }
         return repository.save(r);

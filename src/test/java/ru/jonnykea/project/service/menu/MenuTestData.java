@@ -1,7 +1,7 @@
 package ru.jonnykea.project.service.menu;
 
+import ru.jonnykea.project.MatcherFactory;
 import ru.jonnykea.project.model.restaurant.Menu;
-import ru.jonnykea.project.service.MatcherFactory;
 
 import static ru.jonnykea.project.service.dish.DishTestData.dishesMealVillage;
 import static ru.jonnykea.project.service.dish.DishTestData.newDishes;

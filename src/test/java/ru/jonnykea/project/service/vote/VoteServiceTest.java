@@ -18,11 +18,11 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static ru.jonnykea.project.service.UserTestData.ADMIN_ID;
-import static ru.jonnykea.project.service.UserTestData.NEW_USER_ID;
 import static ru.jonnykea.project.service.menu.MenuTestData.NOT_FOUND;
 import static ru.jonnykea.project.service.restaurant.RestaurantTestData.RESTAURANT_ID;
 import static ru.jonnykea.project.service.vote.VoteTestData.*;
+import static ru.jonnykea.project.web.user.UserTestData.ADMIN_ID;
+import static ru.jonnykea.project.web.user.UserTestData.NEW_USER_ID;
 
 @SpringBootTest
 @Transactional
