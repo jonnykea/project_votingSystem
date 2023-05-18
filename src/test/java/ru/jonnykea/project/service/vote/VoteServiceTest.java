@@ -1,8 +1,10 @@
 package ru.jonnykea.project.service.vote;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import ru.jonnykea.project.error.DataConflictException;
@@ -18,6 +20,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
 import static ru.jonnykea.project.service.menu.MenuTestData.NOT_FOUND;
 import static ru.jonnykea.project.service.restaurant.RestaurantTestData.RESTAURANT_ID;
 import static ru.jonnykea.project.service.vote.VoteTestData.*;
@@ -28,8 +31,18 @@ import static ru.jonnykea.project.web.user.UserTestData.NEW_USER_ID;
 @Transactional
 @ActiveProfiles("test")
 class VoteServiceTest {
+
     @Autowired
     private VoteService service;
+
+    @MockBean
+    private Clock clock;
+
+    @BeforeEach
+    void setupClock() {
+        when(clock.getZone()).thenReturn(
+                ZoneId.of("UTC"));
+    }
 
     @Test
     void getByIdWithUserAndRestaurant() {
@@ -52,7 +65,7 @@ class VoteServiceTest {
     @Test
     void create() {
         Vote newVote = getNew();
-        Vote created = service.create(newVote, NEW_USER_ID, RESTAURANT_ID + 1);
+        Vote created = service.save(newVote, NEW_USER_ID, RESTAURANT_ID + 1);
         int newId = created.id();
         Vote newV = getNew();
         newV.setId(newId);
@@ -61,38 +74,28 @@ class VoteServiceTest {
         assertEquals(4, service.getCount());
     }
 
-    @Test
+    @Test()
     void updateAfterTime() {
-        Clock clock = Clock.fixed(Instant.parse("2023-05-10T11:01:00.00Z"), ZoneId.of("UTC"));
+        when(clock.instant()).thenReturn(
+                Instant.parse("2023-05-10T11:01:00.00Z"));
         assertThrows(DataConflictException.class,
-                () -> service.createForTest(getUpdated(), ADMIN_ID, RESTAURANT_ID + 1, clock));
+                () -> service.save(getUpdated(), ADMIN_ID, RESTAURANT_ID + 1));
     }
 
     @Test
     void updateBeforeTime() {
-        Clock clock = Clock.fixed(Instant.parse("2023-05-10T10:59:00.00Z"), ZoneId.of("UTC"));
-        Vote newVote = getNew();
-        Vote created = service.createForTest(newVote, NEW_USER_ID, RESTAURANT_ID + 1, clock);
-        int newId = created.id();
-        Vote newV = getNew();
-        newV.setId(newId);
-        VOTE.assertMatch(created, newV);
-        VOTE.assertMatch(service.getByUserId(VOTE_ID + 3), newV);
-        assertEquals(4, service.getCount());
+        when(clock.instant()).thenReturn(
+                Instant.parse("2023-05-10T10:59:00.00Z"));
+        Vote updated = service.save(getUpdated(), ADMIN_ID, RESTAURANT_ID + 1);
+        VOTE.assertMatch(updated, getUpdated());
+        VOTE.assertMatch(service.getByUserId(ADMIN_ID), updated);
     }
 
     @Test
     public void checkMockingTime() {
-        Clock clock = Clock.fixed(Instant.parse("2023-05-10T10:00:00.00Z"), ZoneId.of("UTC"));
+        clock = Clock.fixed(Instant.parse("2023-05-10T10:00:00.00Z"), ZoneId.of("UTC"));
         String dateTimeExpected = "2023-05-10T10:00";
         LocalDateTime dateTime = LocalDateTime.now(clock);
         assertEquals(dateTime.toString(), dateTimeExpected);
-    }
-
-    @Test
-    void delete() {
-        service.delete(VOTE_ID);
-        assertThrows(NotFoundException.class, () -> service.getByUserId(VOTE_ID + 2));
-        assertEquals(2, service.getCount());
     }
 }

@@ -1,4 +1,4 @@
-package ru.jonnykea.project.repository.menu;
+package ru.jonnykea.project.repository.restaurant;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,8 +13,9 @@ public interface MenuRepository extends BaseRepository<Menu> {
     @Query(value = """
             SELECT m
             FROM Menu m
-            WHERE m.created = CAST(now() as date)
-              AND m.restaurant.id =:id   
+            JOIN FETCH m.dishes
+            JOIN FETCH m.restaurant
+            WHERE m.restaurant.id =:id   
             """)
     List<Menu> getByRestaurantId(int id);
 }

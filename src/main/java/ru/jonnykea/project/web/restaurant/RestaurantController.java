@@ -2,8 +2,6 @@ package ru.jonnykea.project.web.restaurant;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +11,6 @@ import ru.jonnykea.project.model.restaurant.Restaurant;
 import ru.jonnykea.project.service.restaurant.RestaurantService;
 import ru.jonnykea.project.to.restaurant.RestaurantTo;
 
-import java.util.Comparator;
 import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -33,7 +30,7 @@ public class RestaurantController {
         return service.get(id);
     }
 
-    @GetMapping("/by-name")
+    @GetMapping("/by-name{name}")
     public Restaurant get(@PathVariable String name) {
         log.info("getByName {}", name);
         return service.getByName(name);
@@ -42,6 +39,6 @@ public class RestaurantController {
     @GetMapping("/with-dishes")
     public List<RestaurantTo> getWithDishes() {
         log.info("getAll with menu");
-        return service.getAllWithMenu();
+        return service.getAllWithMenuToday();
     }
 }

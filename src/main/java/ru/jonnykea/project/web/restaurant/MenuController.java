@@ -1,4 +1,4 @@
-package ru.jonnykea.project.web.menu;
+package ru.jonnykea.project.web.restaurant;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.jonnykea.project.model.restaurant.Menu;
-import ru.jonnykea.project.service.menu.MenuService;
+import ru.jonnykea.project.service.restaurant.MenuService;
 
 @Slf4j
 @AllArgsConstructor
@@ -17,10 +17,10 @@ import ru.jonnykea.project.service.menu.MenuService;
 public class MenuController {
 
     protected MenuService service;
-    static final String REST_URL = "/api/restaurants/id/menu";
-    @GetMapping("/{restaurantId}/with-dishes")
+    static final String REST_URL = "/api/restaurants/id/menus";
+    @GetMapping("/by-restaurantId/with-dishes/{restaurantId}")
     public Menu getByRestaurantId(@PathVariable int restaurantId) {
         log.info("getAll with dishes with restaurantId{}", restaurantId);
-        return service.getByRestaurantId(restaurantId);
+        return service.getByToday(restaurantId);
     }
 }

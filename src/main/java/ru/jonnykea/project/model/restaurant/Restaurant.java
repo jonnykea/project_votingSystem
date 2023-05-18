@@ -16,16 +16,13 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "restaurant", uniqueConstraints = {@UniqueConstraint(columnNames =
+@Table(name = "restaurants", uniqueConstraints = {@UniqueConstraint(columnNames =
         {"name", "address"}, name = "restaurant_unique_name_address_idx")})
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(callSuper = true)
-public class Restaurant extends NamedEntity implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class Restaurant extends NamedEntity {
 
     @Column(name = "description", nullable = false)
     @NotBlank
@@ -55,6 +52,6 @@ public class Restaurant extends NamedEntity implements Serializable {
     }
 
     public Restaurant(Restaurant r) {
-        this(r.id,r.name,r.registered,r.description,r.address);
+        this(r.id, r.name, r.registered, r.description, r.address);
     }
 }

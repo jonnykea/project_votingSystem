@@ -7,12 +7,13 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.jonnykea.project.model.restaurant.Menu;
-import ru.jonnykea.project.service.menu.MenuService;
+import ru.jonnykea.project.service.restaurant.MenuService;
 import ru.jonnykea.project.service.restaurant.RestaurantTestData;
 import ru.jonnykea.project.to.restaurant.MenuTo;
 import ru.jonnykea.project.util.JsonUtil;
 import ru.jonnykea.project.util.MenuUtil;
 import ru.jonnykea.project.web.AbstractControllerTest;
+import ru.jonnykea.project.web.restaurant.AdminMenuController;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -46,7 +47,7 @@ class MenuControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void create() throws Exception {
-        MenuTo newTo = new MenuTo(null, "меню помидор", RESTAURANT_ID + 2);
+        MenuTo newTo = new MenuTo(null, "меню помидор", RESTAURANT_ID + 2, created);
         Menu newMenu = getNew();
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -58,13 +59,13 @@ class MenuControllerTest extends AbstractControllerTest {
         int newId = created.id();
         newMenu.setId(newId);
         MENU_MATCHER.assertMatch(created, newMenu);
-        MENU_MATCHER.assertMatch(service.getByRestaurantId(RestaurantTestData.RESTAURANT_NEW_ID), newMenu);
+        MENU_MATCHER.assertMatch(service.getByToday(RestaurantTestData.RESTAURANT_NEW_ID), newMenu);
     }
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void createInvalid() throws Exception {
-        MenuTo newTo = new MenuTo(null, null, null);
+        MenuTo newTo = new MenuTo(null, null, null, created);
         perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newTo)))
@@ -75,7 +76,7 @@ class MenuControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void createDuplicate() throws Exception {
-        MenuTo newTo = new MenuTo(null, "меню пекина", 2);
+        MenuTo newTo = new MenuTo(null, "меню пекина", 2, created);
         Menu updated = MenuUtil.updateFromTo(newTo);
         perform(MockMvcRequestBuilders.post(REST_URL).contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updated)))
@@ -86,7 +87,7 @@ class MenuControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void update() throws Exception {
-        MenuTo newTo = new MenuTo(1, "обновленное меню мясной деревни", 1);
+        MenuTo newTo = new MenuTo(1, "обновленное меню мясной деревни", 1, created);
         Menu updated = MenuUtil.updateFromTo(newTo);
         perform(MockMvcRequestBuilders.put(REST_URL + "/1")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -94,6 +95,6 @@ class MenuControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        MENU_MATCHER_DISHES.assertMatch(updated, service.getByRestaurantId(RestaurantTestData.RESTAURANT_ID));
+        MENU_MATCHER_DISHES.assertMatch(updated, service.getByToday(RestaurantTestData.RESTAURANT_ID));
     }
 }

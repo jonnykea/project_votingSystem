@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.jonnykea.project.model.restaurant.Restaurant;
 import ru.jonnykea.project.service.restaurant.RestaurantService;
+import ru.jonnykea.project.to.restaurant.RestaurantTo;
 import ru.jonnykea.project.to.restaurant.RestaurantToFrom;
 import ru.jonnykea.project.util.RestaurantUtil;
 
 import java.net.URI;
+import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
 import static ru.jonnykea.project.util.validation.ValidationUtil.assureIdConsistent;
@@ -29,6 +31,12 @@ public class AdminRestaurantController {
 
     protected RestaurantService service;
     static final String REST_URL = "/api/admin/restaurants";
+
+    @GetMapping()
+    public List<Restaurant> getAll() {
+        log.info("getAll");
+        return service.getAll();
+    }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

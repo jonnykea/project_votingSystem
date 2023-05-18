@@ -25,7 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = VoteController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class VoteController extends AbstractUserController {
-    static final String REST_URL = "/api/vote";
+    static final String REST_URL = "/api/votes";
 
     protected VoteService service;
 
@@ -47,7 +47,7 @@ public class VoteController extends AbstractUserController {
         log.info("vote {}", restaurantId);
         User user = authUser.getUser();
         Vote vote = new Vote(null);
-        Vote created = service.create(vote, user.getId(), restaurantId);
+        Vote created = service.save(vote, user.getId(), restaurantId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
@@ -63,6 +63,6 @@ public class VoteController extends AbstractUserController {
         int userId = user.getId();
         Vote vote = service.getByUserId(userId);
         ValidationUtil.checkOwner(id, vote.getId());
-        service.create(vote, userId, restaurantId);
+        service.save(vote, userId, restaurantId);
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import ru.jonnykea.project.error.NotFoundException;
 import ru.jonnykea.project.model.restaurant.Dish;
+import ru.jonnykea.project.service.restaurant.DishService;
 
 import java.util.List;
 
@@ -36,18 +37,18 @@ class DishServiceTest {
 
     @Test
     void getActualAll() {
-        List<Dish> actual = service.getActualAll(RESTAURANT_ID);
+        List<Dish> actual = service.getAllByDate(RESTAURANT_ID);
         DISH_MATCHER.assertMatch(actual, dishesMealVillage);
     }
 
     @Test
     void getActualAllNotExisted() {
-        assertThrows(NotFoundException.class, () -> service.getActualAll(NOT_FOUND));
+        assertThrows(NotFoundException.class, () -> service.getAllByDate(NOT_FOUND));
     }
 
     @Test
     void create() {
-        Dish created = service.create(getNew(), RESTAURANT_ID);
+        Dish created = service.save(getNew(), RESTAURANT_ID);
         int newId = created.id();
         Dish newRest = getNew();
         newRest.setId(newId);
@@ -58,19 +59,19 @@ class DishServiceTest {
     @Test
     void createDuplicate() {
         assertThrows(DataIntegrityViolationException.class, ()
-                -> service.create(new Dish(null, "суп", 150), RESTAURANT_ID));
+                -> service.save(new Dish(null, "суп", 150), RESTAURANT_ID));
     }
 
     @Test
     void update() {
         Dish updated = getUpdated();
-        service.create(updated, RESTAURANT_ID);
+        service.save(updated, RESTAURANT_ID);
         DISH_MATCHER.assertMatch(updated, service.get(DISH_ID));
     }
 
     @Test
     void updateNotOwn() {
-        assertThrows(NotFoundException.class, () -> service.create(getUpdated(), NOT_FOUND));
+        assertThrows(NotFoundException.class, () -> service.save(getUpdated(), NOT_FOUND));
     }
 
     @Test

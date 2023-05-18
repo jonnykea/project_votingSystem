@@ -1,6 +1,7 @@
 package ru.jonnykea.project.model.restaurant;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -16,18 +17,15 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "menu", uniqueConstraints =
-        {@UniqueConstraint(columnNames = {"name", "restaurant_id"}, name = "menu_unique_name_r_id_idx")})
+@Table(name = "menus", uniqueConstraints =
+        {@UniqueConstraint(columnNames = {"created", "restaurant_id"}, name = "menu_unique_created_r_id_idx")})
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(callSuper = true)
-public class Menu extends NamedEntity implements Serializable {
+public class Menu extends NamedEntity {
 
-    @Serial
-    private static final long serialVersionUID = 1L;
-
-    @Column(name = "date", nullable = false, columnDefinition = "DATE default now()", updatable = false)
+    @Column(name = "created", nullable = false, columnDefinition = "DATE default now()")
     @NotNull
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDate created = LocalDate.now();
@@ -36,12 +34,11 @@ public class Menu extends NamedEntity implements Serializable {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @ToString.Exclude
     private Restaurant restaurant;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "menu_id")
-    @Size(min = 2, max = 5)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToMany(mappedBy = "menu")
+    @ToString.Exclude
     private List<Dish> dishes;
 
     public Menu(Integer id, String name, LocalDate created) {
