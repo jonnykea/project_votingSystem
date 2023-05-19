@@ -21,7 +21,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
-import static ru.jonnykea.project.service.menu.MenuTestData.NOT_FOUND;
+import static ru.jonnykea.project.service.restaurant.MenuTestData.NOT_FOUND;
 import static ru.jonnykea.project.service.restaurant.RestaurantTestData.RESTAURANT_ID;
 import static ru.jonnykea.project.service.vote.VoteTestData.*;
 import static ru.jonnykea.project.web.user.UserTestData.ADMIN_ID;

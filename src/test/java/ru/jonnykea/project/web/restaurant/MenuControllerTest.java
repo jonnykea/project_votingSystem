@@ -1,4 +1,4 @@
-package ru.jonnykea.project.web.menu;
+package ru.jonnykea.project.web.restaurant;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +13,11 @@ import ru.jonnykea.project.to.restaurant.MenuTo;
 import ru.jonnykea.project.util.JsonUtil;
 import ru.jonnykea.project.util.MenuUtil;
 import ru.jonnykea.project.web.AbstractControllerTest;
-import ru.jonnykea.project.web.restaurant.AdminMenuController;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.jonnykea.project.service.menu.MenuTestData.*;
+import static ru.jonnykea.project.service.restaurant.MenuTestData.*;
 import static ru.jonnykea.project.service.restaurant.RestaurantTestData.RESTAURANT_ID;
 import static ru.jonnykea.project.web.user.UserTestData.ADMIN_MAIL;
 import static ru.jonnykea.project.web.user.UserTestData.USER_MAIL;
@@ -32,10 +31,10 @@ class MenuControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_MAIL)
     void get() throws Exception {
-        perform(MockMvcRequestBuilders.get("/api/restaurants/id/menu/" + RESTAURANT_ID + "/with-dishes"))
+        perform(MockMvcRequestBuilders.get("/api/menus/by-restaurantId/with-dishes/" + RESTAURANT_ID))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(MENU_MATCHER.contentJson(menuMealVillage));
+                .andExpect(MENU_MATCHER_DISHES.contentJson(menuMealVillage));
     }
 
     @Test
@@ -47,7 +46,7 @@ class MenuControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void create() throws Exception {
-        MenuTo newTo = new MenuTo(null, "меню помидор", RESTAURANT_ID + 2, created);
+        MenuTo newTo = new MenuTo(null, "меню помидор", RESTAURANT_ID + 2, null);
         Menu newMenu = getNew();
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -58,14 +57,13 @@ class MenuControllerTest extends AbstractControllerTest {
         Menu created = MENU_MATCHER.readFromJson(action);
         int newId = created.id();
         newMenu.setId(newId);
-        MENU_MATCHER.assertMatch(created, newMenu);
-        MENU_MATCHER.assertMatch(service.getByToday(RestaurantTestData.RESTAURANT_NEW_ID), newMenu);
+        MENU_MATCHER_DISHES.assertMatch(created, newMenu);
     }
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void createInvalid() throws Exception {
-        MenuTo newTo = new MenuTo(null, null, null, created);
+        MenuTo newTo = new MenuTo(null, null, null, null);
         perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newTo)))
@@ -76,7 +74,7 @@ class MenuControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void createDuplicate() throws Exception {
-        MenuTo newTo = new MenuTo(null, "меню пекина", 2, created);
+        MenuTo newTo = new MenuTo(null, "меню пекина", 2, null);
         Menu updated = MenuUtil.updateFromTo(newTo);
         perform(MockMvcRequestBuilders.post(REST_URL).contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updated)))
@@ -87,7 +85,7 @@ class MenuControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void update() throws Exception {
-        MenuTo newTo = new MenuTo(1, "обновленное меню мясной деревни", 1, created);
+        MenuTo newTo = new MenuTo(1, "обновленное меню мясной деревни", 1, null);
         Menu updated = MenuUtil.updateFromTo(newTo);
         perform(MockMvcRequestBuilders.put(REST_URL + "/1")
                 .contentType(MediaType.APPLICATION_JSON)

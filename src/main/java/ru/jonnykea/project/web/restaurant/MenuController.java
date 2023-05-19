@@ -17,7 +17,7 @@ import ru.jonnykea.project.service.restaurant.MenuService;
 public class MenuController {
 
     protected MenuService service;
-    static final String REST_URL = "/api/restaurants/id/menus";
+    static final String REST_URL = "/api/menus";
 
     @GetMapping("/by-restaurantId/with-dishes/{restaurantId}")
     public Menu getByRestaurantId(@PathVariable int restaurantId) {

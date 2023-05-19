@@ -44,7 +44,7 @@ class RestaurantServiceTest {
 
     @Test
     void create() {
-        Restaurant created = service.create(RestaurantTestData.getNew());
+        Restaurant created = service.save(RestaurantTestData.getNew());
         int newId = created.id();
         Restaurant newRest = RestaurantTestData.getNew();
         newRest.setId(newId);
@@ -55,13 +55,13 @@ class RestaurantServiceTest {
     @Test
     void createDuplicate() {
         assertThrows(DataIntegrityViolationException.class, ()
-                -> service.create(new Restaurant(null, "мясная деревня", "специализация блюдо русской кухни", "ул. Партизанская, дом 56")));
+                -> service.save(new Restaurant(null, "мясная деревня", "специализация блюдо русской кухни", "ул. Партизанская, дом 56")));
     }
 
     @Test
     void update() {
         Restaurant updated = RestaurantTestData.getUpdated();
-        service.create(updated);
+        service.save(updated);
         RestaurantTestData.RESTAURANT_MATCHER.assertMatch(updated, service.get(RestaurantTestData.RESTAURANT_ID + 1));
     }
 

@@ -30,11 +30,10 @@ public class DishService {
     public List<Dish> getAllByDate(int restaurantId, LocalDate date) {
         List<Dish> list = repository.getAllByDate(restaurantId, date);
         if (list.isEmpty()) {
-            throw new NotFoundException("Dishes with menu.id = " + restaurantId + " not found");
+            throw new NotFoundException("Dishes with restaurant.id = " + restaurantId + " not found");
         }
         return list;
     }
-
     @CacheEvict(value = {"restaurants", "menu"}, allEntries = true)
     public void delete(int id) {
         repository.deleteExisted(id);

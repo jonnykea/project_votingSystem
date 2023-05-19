@@ -25,7 +25,7 @@ import static ru.jonnykea.project.util.validation.ValidationUtil.checkNew;
 public class AdminMenuController {
 
     protected MenuService service;
-    static final String REST_URL = "/api/admin/restaurants/id/menus";
+    static final String REST_URL = "/api/admin/menus";
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

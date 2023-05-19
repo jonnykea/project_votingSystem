@@ -45,7 +45,7 @@ public class AdminRestaurantController {
     public ResponseEntity<Restaurant> createWithLocation(@Valid @RequestBody RestaurantToFrom restaurantToFrom) {
         log.info("create {}", restaurantToFrom);
         checkNew(restaurantToFrom);
-        Restaurant created = service.create(RestaurantUtil.createNewFromTo(restaurantToFrom));
+        Restaurant created = service.save(RestaurantUtil.createNewFromTo(restaurantToFrom));
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
@@ -57,6 +57,6 @@ public class AdminRestaurantController {
     public void update(@Valid @RequestBody RestaurantToFrom restaurantToFrom, @PathVariable int id) {
         log.info("update {} with id={}", restaurantToFrom, id);
         assureIdConsistent(restaurantToFrom, id);
-        service.create(RestaurantUtil.updateFromTo(restaurantToFrom));
+        service.save(RestaurantUtil.updateFromTo(restaurantToFrom));
     }
 }

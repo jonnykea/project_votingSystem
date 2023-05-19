@@ -25,7 +25,7 @@ import static ru.jonnykea.project.util.validation.ValidationUtil.checkNew;
 public class AdminDishController {
 
     protected DishService dishService;
-    static final String REST_URL = "/api/admin/restaurants/id/menus/dishes";
+    static final String REST_URL = "/api/admin/dishes";
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

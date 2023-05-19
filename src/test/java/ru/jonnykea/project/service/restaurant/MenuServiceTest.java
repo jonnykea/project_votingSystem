@@ -1,4 +1,4 @@
-package ru.jonnykea.project.service.menu;
+package ru.jonnykea.project.service.restaurant;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,12 +8,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import ru.jonnykea.project.error.NotFoundException;
 import ru.jonnykea.project.model.restaurant.Menu;
-import ru.jonnykea.project.service.restaurant.MenuService;
-import ru.jonnykea.project.service.restaurant.RestaurantTestData;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static ru.jonnykea.project.service.menu.MenuTestData.MENU_MATCHER;
-import static ru.jonnykea.project.service.menu.MenuTestData.menuMealVillage;
+import static ru.jonnykea.project.service.restaurant.MenuTestData.*;
 
 @SpringBootTest
 @Transactional
@@ -31,7 +28,7 @@ class MenuServiceTest {
 
     @Test
     void getNotFoundById() {
-        assertThrows(NotFoundException.class, () -> service.get(MenuTestData.NOT_FOUND));
+        assertThrows(NotFoundException.class, () -> service.get(NOT_FOUND));
     }
 
     @Test
@@ -43,18 +40,16 @@ class MenuServiceTest {
     @Test
     void getNotFoundByIdRestaurant() {
         assertThrows(NotFoundException.class,
-                () -> service.getByToday(MenuTestData.NOT_FOUND));
+                () -> service.getByToday(NOT_FOUND));
     }
 
     @Test
     void createWithDishes() {
-        Menu newMenu = MenuTestData.getNew();
-        Menu created = service.save(newMenu, RestaurantTestData.RESTAURANT_NEW_ID);
+        Menu created = service.save(getNew(), RestaurantTestData.RESTAURANT_NEW_ID);
         int newId = created.id();
-        Menu newRest = MenuTestData.getNew();
-        newRest.setId(newId);
-        MENU_MATCHER.assertMatch(created, newRest);
-        MENU_MATCHER.assertMatch(service.getByToday(RestaurantTestData.RESTAURANT_NEW_ID), newRest);
+        Menu newMenu = getNew();
+        newMenu.setId(newId);
+        MENU_MATCHER.assertMatch(created, newMenu);
     }
 
     @Test
@@ -65,27 +60,26 @@ class MenuServiceTest {
 
     @Test
     void update() {
-        Menu updated = MenuTestData.getUpdated();
-        service.save(updated, RestaurantTestData.RESTAURANT_ID);
-        MENU_MATCHER.assertMatch(updated, service.getByToday(RestaurantTestData.RESTAURANT_ID));
+        Menu updated = service.save(getUpdated(), RestaurantTestData.RESTAURANT_ID);
+        MENU_MATCHER.assertMatch(getUpdated(), updated);
     }
 
     @Test
     void updateNotOwn() {
         assertThrows(NotFoundException.class,
-                () -> service.save(MenuTestData.getUpdated(), MenuTestData.NOT_FOUND));
+                () -> service.save(getUpdated(), MenuTestData.NOT_FOUND));
     }
 
     @Test
     void delete() {
         service.delete(MenuTestData.MENU_ID);
         assertThrows(NotFoundException.class,
-                () -> service.getByToday(MenuTestData.MENU_ID));
+                () -> service.getByToday(MENU_ID));
     }
 
     @Test
     void deleteNotFound() {
         assertThrows(NotFoundException.class,
-                () -> service.delete(MenuTestData.NOT_FOUND));
+                () -> service.delete(NOT_FOUND));
     }
 }

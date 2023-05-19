@@ -52,7 +52,7 @@ public class RestaurantService {
 
     @CacheEvict(value = "restaurants", allEntries = true)
     @Transactional
-    public Restaurant create(Restaurant r) {
+    public Restaurant save(Restaurant r) {
         if (!r.isNew()) {
             if (!repository.findById(r.getId()).isPresent()) {
                 throw new NotFoundException("Restaurant with id= " + r.getId() + " not found");

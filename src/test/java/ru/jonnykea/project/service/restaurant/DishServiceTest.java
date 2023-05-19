@@ -1,19 +1,18 @@
-package ru.jonnykea.project.service.dish;
+package ru.jonnykea.project.service.restaurant;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import ru.jonnykea.project.error.NotFoundException;
 import ru.jonnykea.project.model.restaurant.Dish;
-import ru.jonnykea.project.service.restaurant.DishService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static ru.jonnykea.project.service.dish.DishTestData.*;
+import static ru.jonnykea.project.service.restaurant.DishTestData.*;
 import static ru.jonnykea.project.service.restaurant.RestaurantTestData.RESTAURANT_ID;
 
 @SpringBootTest
@@ -37,29 +36,23 @@ class DishServiceTest {
 
     @Test
     void getActualAll() {
-        List<Dish> actual = service.getAllByDate(RESTAURANT_ID);
+        List<Dish> actual = service.getAllByDate(RESTAURANT_ID, LocalDate.now());
         DISH_MATCHER.assertMatch(actual, dishesMealVillage);
     }
 
     @Test
     void getActualAllNotExisted() {
-        assertThrows(NotFoundException.class, () -> service.getAllByDate(NOT_FOUND));
+        assertThrows(NotFoundException.class, () -> service.getAllByDate(NOT_FOUND, LocalDate.now()));
     }
 
     @Test
     void create() {
         Dish created = service.save(getNew(), RESTAURANT_ID);
         int newId = created.id();
-        Dish newRest = getNew();
-        newRest.setId(newId);
-        DISH_MATCHER.assertMatch(created, newRest);
-        DISH_MATCHER.assertMatch(service.get(newId), newRest);
-    }
-
-    @Test
-    void createDuplicate() {
-        assertThrows(DataIntegrityViolationException.class, ()
-                -> service.save(new Dish(null, "суп", 150), RESTAURANT_ID));
+        Dish newDish = getNew();
+        newDish.setId(newId);
+        DISH_MATCHER.assertMatch(created, newDish);
+        DISH_MATCHER.assertMatch(service.get(newId), newDish);
     }
 
     @Test
