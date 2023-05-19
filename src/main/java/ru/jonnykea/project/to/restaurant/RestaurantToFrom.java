@@ -2,7 +2,8 @@ package ru.jonnykea.project.to.restaurant;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Value;
 import ru.jonnykea.project.to.NamedTo;
 import ru.jonnykea.project.util.validation.NoHtml;
 

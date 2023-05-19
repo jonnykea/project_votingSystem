@@ -1,6 +1,9 @@
 package ru.jonnykea.project.service.vote;
 
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.jonnykea.project.error.DataConflictException;
@@ -13,6 +16,7 @@ import ru.jonnykea.project.to.vote.VoteToRating;
 
 import java.time.Clock;
 import java.time.LocalTime;
+import java.util.Collections;
 import java.util.List;
 
 @AllArgsConstructor
@@ -30,6 +34,7 @@ public class VoteService {
         return repository.getExistedUserId(userId);
     }
 
+    @CacheEvict(value = "rating", allEntries = true)
     @Transactional
     public Vote save(Vote vote, int userId, int restaurantId) {
         boolean isVoted = repository.findByUserId(userId).isPresent();
@@ -48,11 +53,17 @@ public class VoteService {
         return repository.countVotes();
     }
 
+    @Cacheable(value = "rating")
     public List<VoteToRating> getRating() {
         return repository.getRestaurantRating();
     }
 
-    public List<VoteTo> getAll() {
-        return repository.getAll();
+    @CachePut(value = "rating", key = "#userId")
+    public List<VoteTo> getAll(int userId) {
+        List<VoteTo> list = repository.getAll(userId);
+        if (list.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return list;
     }
 }

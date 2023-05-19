@@ -1,6 +1,5 @@
 package ru.jonnykea.project.repository.vote;
 
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import ru.jonnykea.project.error.NotFoundException;
@@ -22,7 +21,7 @@ public interface VoteRepository extends BaseRepository<Vote> {
     int countVotes();
 
     @Query("""
-            SELECT new ru.jonnykea.project.to.vote.VoteToRating(r.name, cast(count(v.restaurant) as INTEGER)) 
+            SELECT new ru.jonnykea.project.to.vote.VoteToRating(r.name, cast(count(v.restaurant) as INTEGER))
             FROM Vote v 
             LEFT JOIN v.restaurant r 
             WHERE v.date = CAST(now() as date) 
@@ -30,13 +29,11 @@ public interface VoteRepository extends BaseRepository<Vote> {
     List<VoteToRating> getRestaurantRating();
 
     @Query("""
-            SELECT new ru.jonnykea.project.to.vote.VoteTo(v.id, r.name, u.name)
-            FROM Vote v 
-            LEFT JOIN v.restaurant r 
-            LEFT JOIN v.user u
-            WHERE v.date = CAST(now() as date) 
+            SELECT new ru.jonnykea.project.to.vote.VoteTo(v.id, v.date, v.restaurant.name)
+            FROM Vote v
+            WHERE v.user.id=:userId
             GROUP by v.id""")
-    List<VoteTo> getAll();
+    List<VoteTo> getAll(int userId);
 
     default Vote getExistedUserId(int userId) {
         return findByUserId(userId).orElseThrow(() -> new NotFoundException("Vote with userId=" + userId + " not found"));

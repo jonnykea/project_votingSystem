@@ -13,7 +13,6 @@ import ru.jonnykea.project.to.restaurant.RestaurantTo;
 
 import java.util.List;
 
-import static org.slf4j.LoggerFactory.getLogger;
 @Slf4j
 @AllArgsConstructor
 @RestController

@@ -6,7 +6,6 @@ import ru.jonnykea.project.model.restaurant.Dish;
 import ru.jonnykea.project.repository.BaseRepository;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Transactional(readOnly = true)

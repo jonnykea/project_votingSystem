@@ -1,18 +1,12 @@
 package ru.jonnykea.project.model.restaurant;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import ru.jonnykea.project.model.NamedEntity;
-
-import java.io.Serial;
-import java.io.Serializable;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "dishes")

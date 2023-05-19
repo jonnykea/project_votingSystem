@@ -30,7 +30,7 @@ spring:
     is-getter: none
 
   cache:
-    cache-names: restaurants, menu
+    cache-names: restaurants, menu, rating
     caffeine.spec: maximumSize=5000,expireAfterAccess=10s
 
 logging:

@@ -15,8 +15,9 @@ import ru.jonnykea.project.util.MenuUtil;
 
 import java.net.URI;
 
-import static org.slf4j.LoggerFactory.getLogger;
-import static ru.jonnykea.project.util.validation.ValidationUtil.*;
+import static ru.jonnykea.project.util.validation.ValidationUtil.assureIdConsistent;
+import static ru.jonnykea.project.util.validation.ValidationUtil.checkNew;
+
 @Slf4j
 @AllArgsConstructor
 @RestController

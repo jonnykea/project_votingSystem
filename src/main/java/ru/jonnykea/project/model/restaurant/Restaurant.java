@@ -11,8 +11,6 @@ import lombok.*;
 import ru.jonnykea.project.model.NamedEntity;
 import ru.jonnykea.project.util.validation.NoHtml;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity

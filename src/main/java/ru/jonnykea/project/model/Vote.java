@@ -8,7 +8,6 @@ import org.hibernate.annotations.OnDeleteAction;
 import ru.jonnykea.project.model.restaurant.Restaurant;
 import ru.jonnykea.project.model.user.User;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity

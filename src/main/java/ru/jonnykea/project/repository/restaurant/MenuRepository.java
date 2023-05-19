@@ -13,9 +13,7 @@ public interface MenuRepository extends BaseRepository<Menu> {
     @Query(value = """
             SELECT m
             FROM Menu m
-            JOIN FETCH m.dishes
-            JOIN FETCH m.restaurant
-            WHERE m.restaurant.id =:id   
+            WHERE m.restaurant.id =:id
             """)
     List<Menu> getByRestaurantId(int id);
 }

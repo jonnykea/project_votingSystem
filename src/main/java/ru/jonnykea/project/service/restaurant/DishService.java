@@ -12,7 +12,6 @@ import ru.jonnykea.project.to.restaurant.DishTo;
 import ru.jonnykea.project.util.DishUtil;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 import static ru.jonnykea.project.util.validation.ValidationUtil.checkOwner;

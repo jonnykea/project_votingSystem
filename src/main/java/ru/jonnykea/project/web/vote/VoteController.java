@@ -14,12 +14,13 @@ import ru.jonnykea.project.model.user.User;
 import ru.jonnykea.project.service.vote.VoteService;
 import ru.jonnykea.project.to.vote.VoteTo;
 import ru.jonnykea.project.to.vote.VoteToRating;
+import ru.jonnykea.project.util.validation.ValidationUtil;
 import ru.jonnykea.project.web.AuthUser;
 import ru.jonnykea.project.web.user.AbstractUserController;
-import ru.jonnykea.project.util.validation.ValidationUtil;
 
 import java.net.URI;
 import java.util.List;
+
 @Slf4j
 @AllArgsConstructor
 @RestController
@@ -30,13 +31,15 @@ public class VoteController extends AbstractUserController {
     protected VoteService service;
 
     @GetMapping()
-    public List<VoteTo> getAll() {
+    public List<VoteTo> getAll(@AuthenticationPrincipal AuthUser authUser) {
         log.info("getAll");
-        return service.getAll();
+        User user = authUser.getUser();
+        int userId = user.getId();
+        return service.getAll(userId);
     }
 
-    @GetMapping("/rating")
-    public List<VoteToRating> getRating() {
+    @GetMapping("/rating/by-today")
+    public List<VoteToRating> getRatingByToday() {
         log.info("getRating");
         return service.getRating();
     }

@@ -3,8 +3,6 @@ package ru.jonnykea.project.web.restaurant;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,14 +10,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.jonnykea.project.model.restaurant.Restaurant;
 import ru.jonnykea.project.service.restaurant.RestaurantService;
-import ru.jonnykea.project.to.restaurant.RestaurantTo;
 import ru.jonnykea.project.to.restaurant.RestaurantToFrom;
 import ru.jonnykea.project.util.RestaurantUtil;
 
 import java.net.URI;
 import java.util.List;
 
-import static org.slf4j.LoggerFactory.getLogger;
 import static ru.jonnykea.project.util.validation.ValidationUtil.assureIdConsistent;
 import static ru.jonnykea.project.util.validation.ValidationUtil.checkNew;
 

@@ -18,6 +18,7 @@ public class MenuController {
 
     protected MenuService service;
     static final String REST_URL = "/api/restaurants/id/menus";
+
     @GetMapping("/by-restaurantId/with-dishes/{restaurantId}")
     public Menu getByRestaurantId(@PathVariable int restaurantId) {
         log.info("getAll with dishes with restaurantId{}", restaurantId);
